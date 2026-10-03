@@ -136,9 +136,15 @@
                         {{ team[5] }}
                     </p>
 
-                    <a href="/join-team/{{ team[0] }}" class="join-btn">
-    Request to Join
-</a>
+                    {% if team[0] in member_teams or team[0] in leader_teams %}
+                        <a href="/messages/{{ team[0] }}" class="join-btn">
+                            View Messages
+                        </a>
+                    {% else %}
+                        <a href="/join-team/{{ team[0] }}" class="join-btn">
+                            Request to Join
+                        </a>
+                    {% endif %}
 
                 </div>
 

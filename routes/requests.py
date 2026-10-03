@@ -135,6 +135,59 @@ def accept_request(request_id):
     team_id = request_data[0]
     user_id = request_data[1]
 
+    # Check if user is already a team member
+    cursor.execute(
+        """
+        SELECT id
+        FROM team_members
+        WHERE team_id = %s AND user_id = %s
+        """,
+        (team_id, user_id)
+    )
+
+    existing_member = cursor.fetchone()
+
+    if existing_member:
+        cursor.close()
+        connection.close()
+        return "User is already a team member!"
+
+    # Check current team size
+    cursor.execute(
+        """
+        SELECT team_size
+        FROM teams
+        WHERE id = %s
+        """,
+        (team_id,)
+    )
+
+    team_data = cursor.fetchone()
+
+    if team_data is None:
+        cursor.close()
+        connection.close()
+        return "Team not found!"
+
+    max_team_size = team_data[0]
+
+    # Count current team members
+    cursor.execute(
+        """
+        SELECT COUNT(*)
+        FROM team_members
+        WHERE team_id = %s
+        """,
+        (team_id,)
+    )
+
+    current_member_count = cursor.fetchone()[0]
+
+    if current_member_count >= max_team_size:
+        cursor.close()
+        connection.close()
+        return "Team is already full!"
+
     # Change request status to Accepted
     cursor.execute(
         """
@@ -151,7 +204,6 @@ def accept_request(request_id):
         INSERT INTO team_members
         (team_id, user_id)
         VALUES (%s, %s)
-        ON CONFLICT (team_id, user_id) DO NOTHING
         """,
         (team_id, user_id)
     )

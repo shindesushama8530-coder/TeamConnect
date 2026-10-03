@@ -3,6 +3,7 @@ from routes.auth import auth
 from routes.profile import profile
 from routes.teams import teams
 from routes.requests import requests
+from routes.messages import messages
 
 app = Flask(__name__)
 
@@ -12,6 +13,7 @@ app.register_blueprint(auth)
 app.register_blueprint(profile)
 app.register_blueprint(teams)
 app.register_blueprint(requests)
+app.register_blueprint(messages)
 
 @app.route("/")
 def home():

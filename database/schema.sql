@@ -40,3 +40,22 @@ CREATE TABLE invitations (
     status VARCHAR(20) DEFAULT 'Pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE team_members (
+    id SERIAL PRIMARY KEY,
+    team_id INTEGER REFERENCES teams(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(team_id, user_id)
+);
+
+
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    sender_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    receiver_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    team_id INTEGER REFERENCES teams(id) ON DELETE CASCADE,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
