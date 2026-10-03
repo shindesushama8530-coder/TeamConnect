@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Join Requests - TeamConnect</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+
+        .navbar {
+            background-color: #2563eb;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .request-card {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .request-card h2 {
+            color: #2563eb;
+        }
+
+        .request-card p {
+            color: #555;
+        }
+
+        .accept-btn,
+        .reject-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-right: 10px;
+            margin-top: 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .accept-btn {
+            background-color: #16a34a;
+        }
+
+        .reject-btn {
+            background-color: #dc2626;
+        }
+
+        .no-requests {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="navbar">
+
+    <h2>TeamConnect</h2>
+
+    <a href="/dashboard">Dashboard</a>
+
+</div>
+
+
+<div class="container">
+
+    <h1>Join Requests</h1>
+
+    {% if requests %}
+
+        {% for request in requests %}
+
+            <div class="request-card">
+
+                <h2>{{ request[1] }}</h2>
+
+                <p>
+                    <strong>Email:</strong>
+                    {{ request[2] }}
+                </p>
+
+                <p>
+                    <strong>Skills:</strong>
+                    {{ request[3] }}
+                </p>
+
+                <p>
+                    <strong>Team:</strong>
+                    {{ request[4] }}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    {{ request[5] }}
+                </p>
+
+
+                {% if request[5] == "Pending" %}
+
+                    <a
+                        href="/accept-request/{{ request[0] }}"
+                        class="accept-btn">
+                        Accept
+                    </a>
+
+                    <a
+                        href="/reject-request/{{ request[0] }}"
+                        class="reject-btn">
+                        Reject
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="no-requests">
+
+            <h3>No join requests</h3>
+
+            <p>
+                No students have requested to join your teams yet.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

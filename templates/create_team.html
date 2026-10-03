@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Create Team - TeamConnect</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+
+        .navbar {
+            background-color: #2563eb;
+            color: white;
+            padding: 18px 40px;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .container {
+            width: 600px;
+            margin: 40px auto;
+        }
+
+        .form-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2563eb;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>TeamConnect</h2>
+
+</div>
+
+
+<div class="container">
+
+    <div class="form-box">
+
+        <h1>Create a Team</h1>
+
+        <form method="POST">
+
+            <label>Team Name</label>
+
+            <input
+                type="text"
+                name="team_name"
+                placeholder="Enter team name"
+                required
+            >
+
+
+            <label>Event / Competition</label>
+
+            <input
+                type="text"
+                name="event"
+                placeholder="Example: Hackathon"
+                required
+            >
+
+
+            <label>Description</label>
+
+            <textarea
+                name="description"
+                placeholder="Describe your team"
+            ></textarea>
+
+
+            <label>Required Skills</label>
+
+            <input
+                type="text"
+                name="required_skills"
+                placeholder="Example: Python, Flask, PostgreSQL"
+            >
+
+
+            <label>Team Size</label>
+
+            <input
+                type="number"
+                name="team_size"
+                min="2"
+                max="20"
+                placeholder="Example: 4"
+                required
+            >
+
+
+            <button type="submit">
+                Create Team
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

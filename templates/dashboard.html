@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - TeamConnect</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+
+        .navbar {
+            background-color: #2563eb;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            background-color: #dc2626;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .welcome {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: white;
+            width: 220px;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>TeamConnect</h2>
+
+    <a href="/login" class="logout">Logout</a>
+
+</div>
+
+
+<div class="container">
+
+    <div class="welcome">
+
+        <h1>Welcome, {{ name }}! 👋</h1>
+
+        <p>
+            Welcome to your TeamConnect dashboard.
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>My Profile</h3>
+
+            <p>View and update your profile.</p>
+
+            <a href="/profile">View Profile</a>
+        </div>
+
+
+        <div class="card">
+
+            <h3>Find Teams</h3>
+
+            <p>Find teams that match your skills.</p>
+
+            <a href="/find-teams">Find Teams</a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Create Team</h3>
+
+            <p>Create a new team for your event.</p>
+
+            <a href="/create-team">Create Team</a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Join Requests</h3>
+
+            <p>View your team join requests.</p>
+
+            <a href="/requests">View Requests</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
