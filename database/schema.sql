@@ -20,6 +20,7 @@ CREATE TABLE teams (
     required_skills TEXT,
     team_size INTEGER NOT NULL,
     created_by INTEGER REFERENCES users(id),
+    status VARCHAR(20) DEFAULT 'Open',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

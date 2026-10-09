@@ -1,145 +1,423 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard - TeamConnect</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
+<title>Dashboard - TeamConnect</title>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+        height: 70px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 25px;
+        font-weight: bold;
+        color: #2563eb;
+    }
+
+    .logo span {
+        color: #111827;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #4b5563;
+        padding: 9px 13px;
+        border-radius: 7px;
+        transition: 0.3s;
+        font-size: 14px;
+    }
+
+    .nav-links a:hover {
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+    .register {
+        background: #2563eb !important;
+        color: white !important;
+    }
+
+    .register:hover {
+        background: #1d4ed8 !important;
+    }
+
+    .logout {
+        background: #fee2e2;
+        color: #dc2626 !important;
+    }
+
+    .logout:hover {
+        background: #fecaca !important;
+    }
+
+
+    /* ================= MAIN ================= */
+
+    .container {
+        width: 88%;
+        max-width: 1200px;
+        margin: auto;
+        padding: 40px 0;
+    }
+
+
+    /* ================= HERO ================= */
+
+    .hero {
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        color: white;
+        padding: 40px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(37,99,235,0.20);
+    }
+
+    .hero-text {
+        max-width: 650px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        margin-bottom: 12px;
+    }
+
+    .hero p {
+        font-size: 16px;
+        line-height: 1.6;
+        opacity: 0.9;
+    }
+
+    .hero-icon {
+        font-size: 85px;
+        opacity: 0.9;
+    }
+
+
+    /* ================= SECTION TITLE ================= */
+
+    .section-title {
+        margin: 30px 0 18px;
+    }
+
+    .section-title h2 {
+        font-size: 24px;
+        color: #111827;
+    }
+
+    .section-title p {
+        margin-top: 5px;
+        color: #6b7280;
+    }
+
+
+    /* ================= CARDS ================= */
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.10);
+    }
+
+    .card-icon {
+        width: 55px;
+        height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        background: #eff6ff;
+        font-size: 27px;
+        margin-bottom: 18px;
+    }
+
+    .card h3 {
+        margin-bottom: 9px;
+        color: #111827;
+    }
+
+    .card p {
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.5;
+        min-height: 62px;
+    }
+
+    .card a {
+        display: inline-block;
+        margin-top: 15px;
+        text-decoration: none;
+        color: #2563eb;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .card a:hover {
+        text-decoration: underline;
+    }
+
+
+    /* ================= QUICK ACTIONS ================= */
+
+    .quick-section {
+        margin-top: 35px;
+        background: white;
+        padding: 28px;
+        border-radius: 18px;
+        border: 1px solid #e5e7eb;
+    }
+
+    .quick-section h2 {
+        margin-bottom: 8px;
+    }
+
+    .quick-section p {
+        color: #6b7280;
+        margin-bottom: 20px;
+    }
+
+    .quick-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .quick-buttons a {
+        text-decoration: none;
+        padding: 12px 18px;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: #2563eb;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .quick-buttons a:hover {
+        background: #2563eb;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        text-align: center;
+        padding: 30px;
+        margin-top: 30px;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 1000px) {
+
+        .cards {
+            grid-template-columns: repeat(2, 1fr);
         }
+
+        .hero-icon {
+            font-size: 65px;
+        }
+
+    }
+
+
+    @media (max-width: 700px) {
 
         .navbar {
-            background-color: #2563eb;
-            color: white;
-            padding: 18px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            height: auto;
+            padding: 15px 5%;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .navbar h2 {
-            margin: 0;
-        }
-
-        .logout {
-            color: white;
-            text-decoration: none;
-            background-color: #dc2626;
-            padding: 8px 15px;
-            border-radius: 5px;
+        .nav-links {
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .container {
-            padding: 40px;
+            width: 92%;
+            padding-top: 25px;
         }
 
-        .welcome {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 30px;
+        .hero {
+            padding: 28px;
+        }
+
+        .hero h1 {
+            font-size: 25px;
+        }
+
+        .hero-icon {
+            display: none;
         }
 
         .cards {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+            grid-template-columns: 1fr;
         }
 
-        .card {
-            background-color: white;
-            width: 220px;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
+    }
 
-        .card h3 {
-            margin-top: 0;
-        }
-
-        .card a {
-            display: inline-block;
-            margin-top: 10px;
-            color: #2563eb;
-            text-decoration: none;
-        }
-    </style>
+</style>
 </head>
 
 <body>
 
-<div class="navbar">
+<!-- ================= NAVBAR ================= -->
 
-    <h2>TeamConnect</h2>
+<nav class="navbar">
+    <div class="logo">
+        Team<span>Connect</span>
+    </div>
 
-    <a href="/login" class="logout">Logout</a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/profile">Profile</a>
+        <a href="/find-teams">Find Teams</a>
+        <a href="/create-team">Create Team</a>
+        <a href="/requests">Requests</a>
+        <a href="/login" class="logout">Logout</a>
+    </div>
+</nav>
 
-</div>
+<!-- ================= MAIN ================= -->
 
+<main class="container">
 
-<div class="container">
+<!-- HERO -->
 
-    <div class="welcome">
-
-        <h1>Welcome, {{ name }}! 👋</h1>
-
+<section class="hero">
+    <div class="hero-text">
+        <h1>
+            Welcome back, {{ name }}! 👋
+        </h1>
         <p>
-            Welcome to your TeamConnect dashboard.
+            Find talented teammates, join exciting projects,
+            and build amazing teams with TeamConnect.
         </p>
+    </div>
+    <div class="hero-icon">
+        🤝
+    </div>
+</section>
 
+<!-- FEATURES -->
+
+<div class="section-title">
+    <h2>Your Workspace</h2>
+    <p>Manage your teams and discover new opportunities.</p>
+</div>
+
+<div class="cards">
+
+    <!-- PROFILE -->
+    <div class="card">
+        <div class="card-icon">👤</div>
+        <h3>My Profile</h3>
+        <p>Manage your personal information, skills, interests and academic details.</p>
+        <a href="/profile">View Profile →</a>
     </div>
 
+    <!-- FIND TEAMS -->
+    <div class="card">
+        <div class="card-icon">🔍</div>
+        <h3>Find Teams</h3>
+        <p>Discover teams for hackathons, competitions and academic projects.</p>
+        <a href="/find-teams">Explore Teams →</a>
+    </div>
 
-    <div class="cards">
+    <!-- MY TEAMS -->
+    <div class="card">
+        <div class="card-icon">👥</div>
+        <h3>My Teams</h3>
+        <p>View the teams you have joined and manage your team participation.</p>
+        <a href="/find-teams">View My Teams →</a>
+    </div>
 
-        <div class="card">
-
-            <h3>My Profile</h3>
-
-            <p>View and update your profile.</p>
-
-            <a href="/profile">View Profile</a>
-        </div>
-
-
-        <div class="card">
-
-            <h3>Find Teams</h3>
-
-            <p>Find teams that match your skills.</p>
-
-            <a href="/find-teams">Find Teams</a>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>Create Team</h3>
-
-            <p>Create a new team for your event.</p>
-
-            <a href="/create-team">Create Team</a>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>Join Requests</h3>
-
-            <p>View your team join requests.</p>
-
-            <a href="/requests">View Requests</a>
-
-        </div>
-
+    <!-- REQUESTS -->
+    <div class="card">
+        <div class="card-icon">📩</div>
+        <h3>Join Requests</h3>
+        <p>Review and manage students who requested to join your teams.</p>
+        <a href="/requests">View Requests →</a>
     </div>
 
 </div>
+
+<!-- QUICK ACTIONS -->
+
+<section class="quick-section">
+    <h2>Quick Actions ⚡</h2>
+    <p>Start your next activity with TeamConnect.</p>
+    <div class="quick-buttons">
+        <a href="/find-teams">🔍 Find a Team</a>
+        <a href="/create-team">➕ Create a Team</a>
+        <a href="/profile">👤 Edit Profile</a>
+        <a href="/requests">📩 Manage Requests</a>
+    </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+© 2026 TeamConnect — Centralized Team Management Platform
+</footer>
 
 </body>
 </html>

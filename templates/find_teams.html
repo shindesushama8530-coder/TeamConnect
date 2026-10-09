@@ -1,173 +1,450 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Teams - TeamConnect</title>
-
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .navbar {
-            background-color: #2563eb;
-            color: white;
-            padding: 18px 40px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .navbar h2 {
-            margin: 0;
+            color: #667eea;
+            font-size: 24px;
         }
 
         .navbar a {
-            color: white;
+            color: #667eea;
             text-decoration: none;
+            font-weight: 600;
         }
 
         .container {
-            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        h1 {
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .filter-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 600;
             color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .clear-btn {
+            padding: 12px 30px;
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .clear-btn:hover {
+            background: #fecaca;
+            transform: translateY(-2px);
         }
 
         .teams-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
         }
 
         .team-card {
-            background-color: white;
-            width: 300px;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         .team-card h2 {
-            color: #2563eb;
+            color: #667eea;
+            font-size: 22px;
+            margin-bottom: 15px;
         }
 
         .team-card p {
             color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .team-card strong {
+            color: #333;
+        }
+
+        .team-card .event {
+            background: #f0f4ff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #667eea;
+            font-weight: 600;
         }
 
         .join-btn {
             display: inline-block;
-            margin-top: 10px;
-            padding: 10px 15px;
-            background-color: #2563eb;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .join-btn:hover {
-            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .message-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .status-open {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .status-almost-full {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-full {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .member-count {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #f0f4ff;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            margin-left: 8px;
+        }
+
+        .join-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .join-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            margin-left: 10px;
+            display: inline-block;
+            padding: 12px 24px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
         }
 
         .no-teams {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
+        .no-teams h3 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .no-teams p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .create-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .create-link:hover {
+            text-decoration: underline;
+        }
     </style>
-
+    <script>
+        {% if success %}
+            alert("{{ success }}");
+        {% endif %}
+        {% if error %}
+            alert("{{ error }}");
+        {% endif %}
+    </script>
 </head>
-
 
 <body>
 
 <div class="navbar">
-
-    <h2>TeamConnect</h2>
-
-    <a href="/dashboard">Dashboard</a>
-
+    <h2>🚀 TeamConnect</h2>
+    <a href="/dashboard">Back to Dashboard</a>
 </div>
 
-
 <div class="container">
-
-    <h1>Find Teams</h1>
-
-    <p>
-        Find teams that match your skills and interests.
-    </p>
-
-
-    <div class="teams-container">
-
-        {% if teams %}
-
-            {% for team in teams %}
-
-                <div class="team-card">
-
-                    <h2>{{ team[1] }}</h2>
-
-                    <p>
-                        <strong>Event:</strong>
-                        {{ team[2] }}
-                    </p>
-
-                    <p>
-                        <strong>Description:</strong>
-                        {{ team[3] }}
-                    </p>
-
-                    <p>
-                        <strong>Required Skills:</strong>
-                        {{ team[4] }}
-                    </p>
-
-                    <p>
-                        <strong>Team Size:</strong>
-                        {{ team[5] }}
-                    </p>
-
-                    {% if team[0] in member_teams or team[0] in leader_teams %}
-                        <a href="/messages/{{ team[0] }}" class="join-btn">
-                            View Messages
-                        </a>
-                    {% else %}
-                        <a href="/join-team/{{ team[0] }}" class="join-btn">
-                            Request to Join
-                        </a>
-                    {% endif %}
-
-                </div>
-
-            {% endfor %}
-
-        {% else %}
-
-            <div class="no-teams">
-
-                <h3>No teams available</h3>
-
-                <p>
-                    No teams have been created yet.
-                </p>
-
-            </div>
-
-        {% endif %}
-
+    <div class="header">
+        <h1>Find Teams</h1>
+        <p>Discover teams that match your skills and interests</p>
     </div>
 
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <form method="POST" action="/find-teams">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="search">Search Team/Event</label>
+                    <input type="text" id="search" name="search" value="{{ search }}" placeholder="Enter team name or event">
+                </div>
+
+                <div class="filter-group">
+                    <label for="skills">Skills</label>
+                    <input type="text" id="skills" name="skills" value="{{ skills }}" placeholder="e.g., Python, Flask">
+                </div>
+
+                <div class="filter-group">
+                    <label for="year">Year</label>
+                    <select id="year" name="year">
+                        <option value="">All Years</option>
+                        {% for yr in years %}
+                            <option value="{{ yr }}" {% if year == yr %}selected{% endif %}>{{ yr }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="">All Status</option>
+                        <option value="Open" {% if status == 'Open' %}selected{% endif %}>Open</option>
+                        <option value="Almost Full" {% if status == 'Almost Full' %}selected{% endif %}>Almost Full</option>
+                        <option value="Full" {% if status == 'Full' %}selected{% endif %}>Full</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-buttons">
+                <button type="submit" class="search-btn">🔍 Search</button>
+                <a href="/find-teams" class="clear-btn">🗑️ Clear Filters</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="teams-container">
+        {% if teams %}
+            {% for team in teams %}
+                <div class="team-card">
+                    <div class="event">{{ team['event'] }}</div>
+                    <h2>{{ team['team_name'] }}</h2>
+                    <p><strong>Description:</strong> {{ team['description'] }}</p>
+                    <p><strong>Required Skills:</strong> {{ team['required_skills'] }}</p>
+                    <p><strong>Team Size:</strong> {{ team['team_size'] }} members</p>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <span class="status-badge status-{{ team['auto_status'].lower().replace(' ', '-') }}">
+                            {{ team['auto_status'] }}
+                        </span>
+                        <span class="member-count">
+                            {{ team['member_count'] }}/{{ team['team_size'] }}
+                        </span>
+                    </div>
+                    
+                    {% if team['id'] in member_teams or team['id'] in leader_teams %}
+                        <a href="/messages/{{ team['id'] }}" class="join-btn message-btn">
+                            💬 View Messages
+                        </a>
+                        {% if team['id'] in leader_teams %}
+                            <form action="/delete-team/{{ team['id'] }}" method="POST" style="display: inline;">
+                                <button type="submit" class="join-btn delete-btn" onclick="return confirm('Are you sure you want to delete this team? This action cannot be undone.')">
+                                    🗑️ Delete Team
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% elif team['auto_status'] == 'Full' %}
+                        <button class="join-btn" disabled>🚫 Team Full</button>
+                    {% else %}
+                        <a href="/join-team/{{ team['id'] }}" class="join-btn">
+                            🤝 Request to Join
+                        </a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            {% if search or skills or year or status %}
+                <div class="no-teams">
+                    <h3>No teams found</h3>
+                    <p>No teams match your search criteria. Try adjusting your filters.</p>
+                    <a href="/find-teams" class="create-link">Clear Filters →</a>
+                </div>
+            {% else %}
+                <div class="no-teams">
+                    <h3>No teams available</h3>
+                    <p>No teams have been created yet. Be the first to create one!</p>
+                    <a href="/create-team" class="create-link">Create a Team →</a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
 </div>
 
 </body>
-
 </html>

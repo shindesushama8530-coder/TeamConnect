@@ -1,166 +1,274 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join Requests - TeamConnect</title>
-
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .navbar {
-            background-color: #2563eb;
-            color: white;
-            padding: 18px 40px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .navbar h2 {
-            margin: 0;
+            color: #667eea;
+            font-size: 24px;
         }
 
         .navbar a {
-            color: white;
+            color: #667eea;
             text-decoration: none;
+            font-weight: 600;
         }
 
         .container {
-            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
         }
 
         .request-card {
-            background-color: white;
-            padding: 25px;
+            background: white;
+            padding: 30px;
             margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .request-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .request-header h2 {
+            color: #667eea;
+            font-size: 24px;
+        }
+
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-accepted {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .request-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: #f8f9ff;
+            padding: 15px;
             border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
 
-        .request-card h2 {
-            color: #2563eb;
+        .info-item strong {
+            display: block;
+            color: #667eea;
+            font-size: 12px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .request-card p {
-            color: #555;
+        .info-item span {
+            color: #333;
+            font-size: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         .accept-btn,
         .reject-btn {
-            display: inline-block;
-            padding: 10px 15px;
-            margin-right: 10px;
-            margin-top: 10px;
+            padding: 12px 24px;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .accept-btn {
-            background-color: #16a34a;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .accept-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
         }
 
         .reject-btn {
-            background-color: #dc2626;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .reject-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
         }
 
         .no-requests {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
+        .no-requests h3 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .no-requests p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .request-info {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
-
+    <script>
+        {% if success %}
+            alert("{{ success }}");
+        {% endif %}
+        {% if error %}
+            alert("{{ error }}");
+        {% endif %}
+    </script>
 </head>
-
 
 <body>
 
 <div class="navbar">
-
-    <h2>TeamConnect</h2>
-
-    <a href="/dashboard">Dashboard</a>
-
+    <h2>🚀 TeamConnect</h2>
+    <a href="/dashboard">Back to Dashboard</a>
 </div>
 
-
 <div class="container">
-
-    <h1>Join Requests</h1>
+    <div class="header">
+        <h1>Join Requests</h1>
+        <p>Manage students who want to join your teams</p>
+    </div>
 
     {% if requests %}
-
         {% for request in requests %}
-
             <div class="request-card">
+                <div class="request-header">
+                    <h2>{{ request[1] }}</h2>
+                    <span class="status-badge status-{{ request[5].lower() }}">{{ request[5] }}</span>
+                </div>
 
-                <h2>{{ request[1] }}</h2>
-
-                <p>
-                    <strong>Email:</strong>
-                    {{ request[2] }}
-                </p>
-
-                <p>
-                    <strong>Skills:</strong>
-                    {{ request[3] }}
-                </p>
-
-                <p>
-                    <strong>Team:</strong>
-                    {{ request[4] }}
-                </p>
-
-                <p>
-                    <strong>Status:</strong>
-                    {{ request[5] }}
-                </p>
-
+                <div class="request-info">
+                    <div class="info-item">
+                        <strong>Email</strong>
+                        <span>{{ request[2] }}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Skills</strong>
+                        <span>{{ request[3] or "Not specified" }}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Team</strong>
+                        <span>{{ request[4] }}</span>
+                    </div>
+                </div>
 
                 {% if request[5] == "Pending" %}
-
-                    <a
-                        href="/accept-request/{{ request[0] }}"
-                        class="accept-btn">
-                        Accept
-                    </a>
-
-                    <a
-                        href="/reject-request/{{ request[0] }}"
-                        class="reject-btn">
-                        Reject
-                    </a>
-
+                    <div class="action-buttons">
+                        <a href="/accept-request/{{ request[0] }}" class="accept-btn">✓ Accept</a>
+                        <a href="/reject-request/{{ request[0] }}" class="reject-btn">✗ Reject</a>
+                    </div>
                 {% endif %}
-
             </div>
-
         {% endfor %}
-
     {% else %}
-
         <div class="no-requests">
-
             <h3>No join requests</h3>
-
-            <p>
-                No students have requested to join your teams yet.
-            </p>
-
+            <p>No students have requested to join your teams yet.</p>
         </div>
-
     {% endif %}
-
 </div>
 
 </body>
-
 </html>

@@ -1,160 +1,226 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Team - TeamConnect</title>
-
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .navbar {
-            background-color: #2563eb;
-            color: white;
-            padding: 18px 40px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .navbar h2 {
-            margin: 0;
+            color: #667eea;
+            font-size: 24px;
+        }
+
+        .navbar a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
         }
 
         .container {
-            width: 600px;
-            margin: 40px auto;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .form-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-in;
         }
 
-        h1 {
-            color: #2563eb;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
         }
 
         input,
-        textarea {
+        textarea,
+        select {
             width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         textarea {
-            height: 100px;
+            height: 120px;
             resize: vertical;
         }
 
         button {
             width: 100%;
-            margin-top: 20px;
-            padding: 12px;
-            background-color: #2563eb;
+            padding: 14px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-    </style>
+        button:active {
+            transform: translateY(0);
+        }
 
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="navbar">
-
-    <h2>TeamConnect</h2>
-
+    <h2>🚀 TeamConnect</h2>
+    <a href="/dashboard">Back to Dashboard</a>
 </div>
 
-
 <div class="container">
-
     <div class="form-box">
-
-        <h1>Create a Team</h1>
+        <div class="header">
+            <h1>Create a Team</h1>
+            <p>Build your dream team for hackathons and competitions</p>
+        </div>
 
         <form method="POST">
+            <div class="form-group">
+                <label for="team_name">Team Name</label>
+                <input type="text" id="team_name" name="team_name" placeholder="Enter your team name" required>
+            </div>
 
-            <label>Team Name</label>
+            <div class="form-group">
+                <label for="event">Event / Competition</label>
+                <input type="text" id="event" name="event" placeholder="e.g., Hackathon, Competition" required>
+            </div>
 
-            <input
-                type="text"
-                name="team_name"
-                placeholder="Enter team name"
-                required
-            >
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Describe your team's goals and vision"></textarea>
+            </div>
 
+            <div class="form-group">
+                <label for="required_skills">Required Skills</label>
+                <input type="text" id="required_skills" name="required_skills" placeholder="e.g., Python, Flask, PostgreSQL">
+            </div>
 
-            <label>Event / Competition</label>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="team_size">Team Size</label>
+                    <input type="number" id="team_size" name="team_size" min="2" max="20" placeholder="e.g., 4" required>
+                </div>
+            </div>
 
-            <input
-                type="text"
-                name="event"
-                placeholder="Example: Hackathon"
-                required
-            >
-
-
-            <label>Description</label>
-
-            <textarea
-                name="description"
-                placeholder="Describe your team"
-            ></textarea>
-
-
-            <label>Required Skills</label>
-
-            <input
-                type="text"
-                name="required_skills"
-                placeholder="Example: Python, Flask, PostgreSQL"
-            >
-
-
-            <label>Team Size</label>
-
-            <input
-                type="number"
-                name="team_size"
-                min="2"
-                max="20"
-                placeholder="Example: 4"
-                required
-            >
-
-
-            <button type="submit">
-                Create Team
-            </button>
-
+            <button type="submit">Create Team</button>
         </form>
 
+        <div class="back-link">
+            <a href="/dashboard">← Cancel and go back</a>
+        </div>
     </div>
-
 </div>
 
 </body>
-
 </html>

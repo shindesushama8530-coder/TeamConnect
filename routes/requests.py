@@ -19,6 +19,23 @@ def join_team(team_id):
     connection = get_connection()
     cursor = connection.cursor()
 
+    # Check if user is already a team member
+    cursor.execute(
+        """
+        SELECT id
+        FROM team_members
+        WHERE team_id = %s AND user_id = %s
+        """,
+        (team_id, user_id)
+    )
+
+    existing_member = cursor.fetchone()
+
+    if existing_member:
+        cursor.close()
+        connection.close()
+        return redirect(url_for("teams.find_teams", error="You are already a member of this team!"))
+
     # Check if request already exists
     cursor.execute(
         """
@@ -35,8 +52,43 @@ def join_team(team_id):
     if existing_request:
         cursor.close()
         connection.close()
+        return redirect(url_for("teams.find_teams", error="You have already requested to join this team!"))
 
-        return "You have already requested to join this team!"
+    # Check team capacity
+    cursor.execute(
+        """
+        SELECT team_size
+        FROM teams
+        WHERE id = %s
+        """,
+        (team_id,)
+    )
+
+    team_data = cursor.fetchone()
+
+    if team_data is None:
+        cursor.close()
+        connection.close()
+        return redirect(url_for("teams.find_teams", error="Team not found!"))
+
+    max_team_size = team_data[0]
+
+    # Count current team members
+    cursor.execute(
+        """
+        SELECT COUNT(*)
+        FROM team_members
+        WHERE team_id = %s
+        """,
+        (team_id,)
+    )
+
+    current_member_count = cursor.fetchone()[0]
+
+    if current_member_count >= max_team_size:
+        cursor.close()
+        connection.close()
+        return redirect(url_for("teams.find_teams", error="Team is already full! Cannot join."))
 
     # Insert new request
     cursor.execute(
@@ -53,7 +105,7 @@ def join_team(team_id):
     cursor.close()
     connection.close()
 
-    return "Join request sent successfully!"
+    return redirect(url_for("teams.find_teams", success="Join request sent successfully!"))
 
 
 # --------------------------------
@@ -98,7 +150,9 @@ def view_requests():
 
     return render_template(
         "requests.html",
-        requests=requests_list
+        requests=requests_list,
+        success=request.args.get("success"),
+        error=request.args.get("error")
     )
 
 
@@ -130,7 +184,7 @@ def accept_request(request_id):
     if request_data is None:
         cursor.close()
         connection.close()
-        return "Request not found!"
+        return redirect(url_for("requests.view_requests", error="Request not found!"))
 
     team_id = request_data[0]
     user_id = request_data[1]
@@ -150,7 +204,7 @@ def accept_request(request_id):
     if existing_member:
         cursor.close()
         connection.close()
-        return "User is already a team member!"
+        return redirect(url_for("requests.view_requests", error="User is already a team member!"))
 
     # Check current team size
     cursor.execute(
@@ -167,7 +221,7 @@ def accept_request(request_id):
     if team_data is None:
         cursor.close()
         connection.close()
-        return "Team not found!"
+        return redirect(url_for("requests.view_requests", error="Team not found!"))
 
     max_team_size = team_data[0]
 
@@ -186,7 +240,7 @@ def accept_request(request_id):
     if current_member_count >= max_team_size:
         cursor.close()
         connection.close()
-        return "Team is already full!"
+        return redirect(url_for("requests.view_requests", error="Team is already full!"))
 
     # Change request status to Accepted
     cursor.execute(
@@ -213,7 +267,8 @@ def accept_request(request_id):
     cursor.close()
     connection.close()
 
-    return redirect(url_for("requests.view_requests"))
+    return redirect(url_for("requests.view_requests", success="Request accepted successfully!"))
+
 
 # --------------------------------
 # REJECT REQUEST
@@ -242,4 +297,4 @@ def reject_request(request_id):
     cursor.close()
     connection.close()
 
-    return redirect(url_for("requests.view_requests"))
+    return redirect(url_for("requests.view_requests", success="Request rejected successfully!"))
