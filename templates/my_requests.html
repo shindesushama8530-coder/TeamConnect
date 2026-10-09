@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Join Requests - TeamConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .navbar {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            color: #667eea;
+            font-size: 24px;
+        }
+
+        .navbar a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .request-card {
+            background: white;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .request-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .request-header h2 {
+            color: #667eea;
+            font-size: 24px;
+        }
+
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-accepted {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .request-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-item strong {
+            display: block;
+            color: #667eea;
+            font-size: 12px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-item span {
+            color: #333;
+            font-size: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .withdraw-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .withdraw-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .no-requests {
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-requests h3 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .no-requests p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .find-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .find-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .request-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+        {% if success %}
+            alert("{{ success }}");
+        {% endif %}
+        {% if error %}
+            alert("{{ error }}");
+        {% endif %}
+    </script>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>🚀 TeamConnect</h2>
+    <a href="/dashboard">Back to Dashboard</a>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h1>My Join Requests</h1>
+        <p>View and manage your team join requests</p>
+    </div>
+
+    {% if requests %}
+        {% for request in requests %}
+            <div class="request-card">
+                <div class="request-header">
+                    <h2>{{ request[1] }}</h2>
+                    <span class="status-badge status-{{ request[3].lower() }}">{{ request[3] }}</span>
+                </div>
+
+                <div class="request-info">
+                    <div class="info-item">
+                        <strong>Event</strong>
+                        <span>{{ request[2] }}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Requested On</strong>
+                        <span>{{ request[4].strftime('%Y-%m-%d %H:%M') }}</span>
+                    </div>
+                </div>
+
+                {% if request[3] == "Pending" %}
+                    <div class="action-buttons">
+                        <form action="/withdraw-request/{{ request[0] }}" method="POST">
+                            <button type="submit" class="withdraw-btn" onclick="return confirm('Are you sure you want to withdraw this request?')">
+                                ↩️ Withdraw Request
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-requests">
+            <h3>No join requests</h3>
+            <p>You haven't requested to join any teams yet.</p>
+            <a href="/find-teams" class="find-link">Find Teams →</a>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

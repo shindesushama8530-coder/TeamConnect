@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Teams - TeamConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .navbar {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            color: #667eea;
+            font-size: 24px;
+        }
+
+        .navbar a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .teams-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .team-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-card h2 {
+            color: #667eea;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .team-card p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .team-card strong {
+            color: #333;
+        }
+
+        .team-card .event {
+            background: #f0f4ff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .join-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .message-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .status-open {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .status-almost-full {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-full {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .member-count {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #f0f4ff;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            margin-left: 8px;
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            margin-left: 10px;
+            display: inline-block;
+            padding: 12px 24px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .leader-badge {
+            background: #fef3c7;
+            color: #d97706;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .no-teams {
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-teams h3 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .no-teams p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .create-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .create-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        {% if success %}
+            alert("{{ success }}");
+        {% endif %}
+        {% if error %}
+            alert("{{ error }}");
+        {% endif %}
+    </script>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>🚀 TeamConnect</h2>
+    <div>
+        <a href="/my-requests" style="margin-right: 20px;">My Requests</a>
+        <a href="/dashboard">Back to Dashboard</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h1>My Teams</h1>
+        <p>View and manage the teams you belong to</p>
+    </div>
+
+    <div class="teams-container">
+        {% if teams %}
+            {% for team in teams %}
+                <div class="team-card">
+                    <div class="event">{{ team['event'] }}</div>
+                    <h2>{{ team['team_name'] }} {% if team['is_leader'] %}<span class="leader-badge">Leader</span>{% endif %}</h2>
+                    <p><strong>Description:</strong> {{ team['description'] }}</p>
+                    <p><strong>Required Skills:</strong> {{ team['required_skills'] }}</p>
+                    <p><strong>Team Size:</strong> {{ team['team_size'] }} members</p>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <span class="status-badge status-{{ team['auto_status'].lower().replace(' ', '-') }}">
+                            {{ team['auto_status'] }}
+                        </span>
+                        <span class="member-count">
+                            {{ team['member_count'] }}/{{ team['team_size'] }}
+                        </span>
+                    </div>
+                    
+                    <a href="/messages/{{ team['id'] }}" class="join-btn message-btn">
+                        💬 View Messages
+                    </a>
+                    {% if team['is_leader'] %}
+                        <form action="/delete-team/{{ team['id'] }}" method="POST" style="display: inline;">
+                            <button type="submit" class="join-btn delete-btn" onclick="return confirm('Are you sure you want to delete this team? This action cannot be undone.')">
+                                🗑️ Delete Team
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-teams">
+                <h3>No teams yet</h3>
+                <p>You haven't joined or created any teams yet.</p>
+                <a href="/find-teams" class="create-link">Find Teams →</a>
+                <br>
+                <a href="/create-team" class="create-link">Create a Team →</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

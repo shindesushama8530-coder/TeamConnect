@@ -88,6 +88,70 @@
             background: #3730a3;
         }
 
+        .remove-btn {
+            padding: 8px 16px;
+            background: #ef4444;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+        }
+
+        .member-card {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .member-card.leader {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .member-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .leader-badge {
+            background: #f59e0b;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .member-details {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .member-details strong {
+            color: #667eea;
+            font-size: 12px;
+        }
+
+        .member-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
         .messages {
             background: white;
             padding: 25px;
@@ -154,6 +218,14 @@
             text-decoration: underline;
         }
     </style>
+    <script>
+        {% if success %}
+            alert("{{ success }}");
+        {% endif %}
+        {% if error %}
+            alert("{{ error }}");
+        {% endif %}
+    </script>
 </head>
 <body>
     <nav>
@@ -169,12 +241,35 @@
         <h1>Team Messages</h1>
 
         <div class="team-members">
-            <h2>Send Message To:</h2>
+            <h2>Team Members ({{ member_count }})</h2>
             <div class="member-list">
                 {% for member in team_members %}
-                    <a href="/send-message/{{ team_id }}/{{ member[0] }}" class="member-btn">
-                        {{ member[1] }}
-                    </a>
+                    <div class="member-card {% if member[6] %}leader{% endif %}">
+                        <div class="member-name">
+                            {{ member[1] }}
+                            {% if member[6] %}
+                                <span class="leader-badge">Team Leader</span>
+                            {% endif %}
+                        </div>
+                        <div class="member-details">
+                            <strong>Email:</strong> {{ member[2] }}<br>
+                            <strong>Department:</strong> {{ member[3] or 'Not specified' }}<br>
+                            <strong>Year:</strong> {{ member[4] or 'Not specified' }}<br>
+                            <strong>Skills:</strong> {{ member[5] or 'Not specified' }}
+                        </div>
+                        <div class="member-actions">
+                            <a href="/send-message/{{ team_id }}/{{ member[0] }}" class="member-btn">
+                                💬 Send Message
+                            </a>
+                            {% if is_leader and not member[6] %}
+                                <form action="/remove-member/{{ team_id }}/{{ member[0] }}" method="POST" style="display: inline;">
+                                    <button type="submit" class="remove-btn" onclick="return confirm('Are you sure you want to remove {{ member[1] }} from the team?')">
+                                        🗑️ Remove
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
         </div>

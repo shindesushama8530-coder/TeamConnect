@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, session
+from flask import Blueprint, render_template, redirect, url_for, session, request
 from database.db import get_connection
 
 requests = Blueprint("requests", __name__)
@@ -298,3 +298,117 @@ def reject_request(request_id):
     connection.close()
 
     return redirect(url_for("requests.view_requests", success="Request rejected successfully!"))
+
+
+# --------------------------------
+# MY JOIN REQUESTS
+# --------------------------------
+
+@requests.route("/my-requests")
+def my_requests():
+
+    if "user_id" not in session:
+        return redirect(url_for("auth.login"))
+
+    user_id = session["user_id"]
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            join_requests.id,
+            teams.team_name,
+            teams.event,
+            join_requests.status,
+            join_requests.created_at
+        FROM join_requests
+        JOIN teams ON join_requests.team_id = teams.id
+        WHERE join_requests.user_id = %s
+        ORDER BY join_requests.created_at DESC
+        """,
+        (user_id,)
+    )
+
+    requests_list = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return render_template(
+        "my_requests.html",
+        requests=requests_list,
+        success=request.args.get("success"),
+        error=request.args.get("error")
+    )
+
+
+# --------------------------------
+# WITHDRAW REQUEST
+# --------------------------------
+
+@requests.route("/withdraw-request/<int:request_id>", methods=["POST"])
+def withdraw_request(request_id):
+
+    if "user_id" not in session:
+        return redirect(url_for("auth.login"))
+
+    user_id = session["user_id"]
+    redirect_to = request.args.get("redirect", "my-requests")
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    # Check if request exists and belongs to user
+    cursor.execute(
+        """
+        SELECT user_id, status, team_id
+        FROM join_requests
+        WHERE id = %s
+        """,
+        (request_id,)
+    )
+
+    request_data = cursor.fetchone()
+
+    if request_data is None:
+        cursor.close()
+        connection.close()
+        if redirect_to == "find-teams":
+            return redirect(url_for("teams.find_teams", error="Request not found!"))
+        return redirect(url_for("requests.my_requests", error="Request not found!"))
+
+    request_user_id, status, team_id = request_data
+
+    if request_user_id != user_id:
+        cursor.close()
+        connection.close()
+        if redirect_to == "find-teams":
+            return redirect(url_for("teams.find_teams", error="You are not authorized to withdraw this request!"))
+        return redirect(url_for("requests.my_requests", error="You are not authorized to withdraw this request!"))
+
+    if status != "Pending":
+        cursor.close()
+        connection.close()
+        if redirect_to == "find-teams":
+            return redirect(url_for("teams.find_teams", error="You can only withdraw pending requests!"))
+        return redirect(url_for("requests.my_requests", error="You can only withdraw pending requests!"))
+
+    # Delete the request
+    cursor.execute(
+        """
+        DELETE FROM join_requests
+        WHERE id = %s
+        """,
+        (request_id,)
+    )
+
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    if redirect_to == "find-teams":
+        return redirect(url_for("teams.find_teams", success="Request withdrawn successfully!"))
+    return redirect(url_for("requests.my_requests", success="Request withdrawn successfully!"))

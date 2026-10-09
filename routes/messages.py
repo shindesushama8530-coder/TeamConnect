@@ -153,32 +153,33 @@ def view_messages(team_id):
 
     messages_list = cursor.fetchall()
 
-    # Get team members for messaging
+    # Get all team members with full details
     cursor.execute(
         """
-        SELECT DISTINCT users.id, users.name
+        SELECT users.id, users.name, users.email, users.department, users.year, users.skills,
+               CASE WHEN teams.created_by = users.id THEN true ELSE false END as is_leader
         FROM team_members
         JOIN users ON team_members.user_id = users.id
-        WHERE team_members.team_id = %s AND team_members.user_id != %s
+        JOIN teams ON team_members.team_id = teams.id
+        WHERE team_members.team_id = %s
+        ORDER BY teams.created_by = users.id DESC, users.name ASC
         """,
-        (team_id, user_id)
+        (team_id,)
     )
 
     team_members = cursor.fetchall()
 
-    # Add team leader if not already in list
-    if team_leader and team_leader[0] != user_id:
-        cursor.execute(
-            """
-            SELECT id, name
-            FROM users
-            WHERE id = %s
-            """,
-            (team_leader[0],)
-        )
-        leader_info = cursor.fetchone()
-        if leader_info:
-            team_members.append(leader_info)
+    # Get member count
+    cursor.execute(
+        """
+        SELECT COUNT(*)
+        FROM team_members
+        WHERE team_id = %s
+        """,
+        (team_id,)
+    )
+
+    member_count = cursor.fetchone()[0]
 
     cursor.close()
     connection.close()
@@ -187,5 +188,10 @@ def view_messages(team_id):
         "messages.html",
         messages=messages_list,
         team_members=team_members,
-        team_id=team_id
+        team_id=team_id,
+        member_count=member_count,
+        is_leader=(team_leader and team_leader[0] == user_id),
+        current_user_id=user_id,
+        success=request.args.get("success"),
+        error=request.args.get("error")
     )

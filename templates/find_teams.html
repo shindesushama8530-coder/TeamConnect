@@ -338,7 +338,10 @@
 
 <div class="navbar">
     <h2>🚀 TeamConnect</h2>
-    <a href="/dashboard">Back to Dashboard</a>
+    <div>
+        <a href="/my-requests" style="margin-right: 20px;">My Requests</a>
+        <a href="/dashboard">Back to Dashboard</a>
+    </div>
 </div>
 
 <div class="container">
@@ -419,6 +422,12 @@
                                 </button>
                             </form>
                         {% endif %}
+                    {% elif team['id'] in pending_requests %}
+                        <form action="/withdraw-request/{{ pending_requests[team['id']] }}?redirect=find-teams" method="POST" style="display: inline;">
+                            <button type="submit" class="join-btn" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);" onclick="return confirm('Are you sure you want to withdraw this request?')">
+                                ↩️ Withdraw Request
+                            </button>
+                        </form>
                     {% elif team['auto_status'] == 'Full' %}
                         <button class="join-btn" disabled>🚫 Team Full</button>
                     {% else %}
