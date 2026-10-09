@@ -173,7 +173,8 @@ def my_teams():
                CASE WHEN t.created_by = %s THEN true ELSE false END as is_leader
         FROM teams t
         LEFT JOIN team_members tm ON t.id = tm.team_id
-        WHERE t.created_by = %s OR tm.user_id = %s
+        WHERE t.created_by = %s 
+           OR t.id IN (SELECT team_id FROM team_members WHERE user_id = %s)
         GROUP BY t.id, t.team_name, t.event, t.description, t.required_skills, t.team_size, t.status, t.created_by
         ORDER BY t.created_at DESC
     """
