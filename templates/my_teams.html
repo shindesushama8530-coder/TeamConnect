@@ -4,45 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Teams - TeamConnect</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <link rel="stylesheet" href="/static/css/style.css">
 
+    <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 20s linear infinite;
         }
 
         .navbar {
             background: white;
-            padding: 15px 30px;
-            border-radius: 15px;
+            padding: 20px 30px;
+            border-radius: 20px;
             margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
 
         .navbar h2 {
-            color: #667eea;
-            font-size: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 28px;
+            font-weight: 800;
         }
 
         .navbar a {
-            color: #667eea;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background: var(--light);
+            transform: translateY(-2px);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
@@ -52,138 +76,144 @@
         }
 
         .header h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
+            font-size: 42px;
+            margin-bottom: 12px;
+            font-weight: 800;
         }
 
         .header p {
-            font-size: 16px;
-            opacity: 0.9;
+            font-size: 18px;
+            opacity: 0.95;
         }
 
         .teams-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
         }
 
         .team-card {
             background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             animation: fadeIn 0.5s ease-in;
+            border: 2px solid transparent;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 24px 24px 0 0;
         }
 
         .team-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border-color: #e2e8f0;
         }
 
         .team-card h2 {
-            color: #667eea;
-            font-size: 22px;
+            color: var(--dark);
+            font-size: 24px;
             margin-bottom: 15px;
+            font-weight: 700;
         }
 
         .team-card p {
-            color: #555;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 10px;
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 12px;
         }
 
         .team-card strong {
-            color: #333;
+            color: var(--dark);
+            font-weight: 600;
         }
 
         .team-card .event {
-            background: #f0f4ff;
-            padding: 8px 12px;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px 16px;
+            border-radius: 12px;
             display: inline-block;
-            margin-bottom: 15px;
-            color: #667eea;
+            margin-bottom: 18px;
+            color: white;
             font-weight: 600;
+            font-size: 14px;
         }
 
         .join-btn {
             display: inline-block;
             margin-top: 20px;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             text-decoration: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: 600;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
 
         .join-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .message-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
         }
 
         .status-badge {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 8px 16px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .status-open {
-            background: #d1fae5;
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
             color: #059669;
         }
 
         .status-almost-full {
-            background: #fef3c7;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             color: #d97706;
         }
 
         .status-full {
-            background: #fee2e2;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
             color: #dc2626;
         }
 
         .member-count {
             display: inline-block;
-            padding: 6px 12px;
-            background: #f0f4ff;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
-            color: #667eea;
-            margin-bottom: 10px;
+            color: var(--primary);
+            margin-bottom: 12px;
             margin-left: 8px;
         }
 
         .delete-btn {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             margin-left: 10px;
             display: inline-block;
-            padding: 12px 24px;
+            padding: 14px 28px;
             color: white;
             text-decoration: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: 600;
             transition: all 0.3s ease;
             border: none;
@@ -191,49 +221,62 @@
         }
 
         .delete-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(239, 68, 68, 0.4);
         }
 
         .leader-badge {
-            background: #fef3c7;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             color: #d97706;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 12px;
             font-weight: 600;
-            margin-left: 8px;
+            margin-left: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .no-teams {
             background: white;
-            padding: 60px;
-            border-radius: 20px;
+            padding: 80px;
+            border-radius: 24px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
         .no-teams h3 {
-            color: #667eea;
-            font-size: 28px;
-            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+            margin-bottom: 18px;
+            font-weight: 800;
         }
 
         .no-teams p {
-            color: #666;
-            font-size: 16px;
+            color: var(--gray);
+            font-size: 18px;
+            margin-bottom: 25px;
         }
 
         .create-link {
             display: inline-block;
-            margin-top: 20px;
-            color: #667eea;
+            margin-top: 15px;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 10px;
+            background: var(--light);
+            transition: all 0.3s ease;
         }
 
         .create-link:hover {
-            text-decoration: underline;
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
         }
     </style>
     <script>
@@ -251,8 +294,8 @@
 <div class="navbar">
     <h2>🚀 TeamConnect</h2>
     <div>
-        <a href="/my-requests" style="margin-right: 20px;">My Requests</a>
-        <a href="/dashboard">Back to Dashboard</a>
+        <a href="/my-requests">My Requests</a>
+        <a href="/dashboard">Dashboard</a>
     </div>
 </div>
 
@@ -271,8 +314,8 @@
                     <p><strong>Description:</strong> {{ team['description'] }}</p>
                     <p><strong>Required Skills:</strong> {{ team['required_skills'] }}</p>
                     <p><strong>Team Size:</strong> {{ team['team_size'] }} members</p>
-                    
-                    <div style="margin-bottom: 15px;">
+
+                    <div style="margin-bottom: 18px;">
                         <span class="status-badge status-{{ team['auto_status'].lower().replace(' ', '-') }}">
                             {{ team['auto_status'] }}
                         </span>
@@ -280,13 +323,13 @@
                             {{ team['member_count'] }}/{{ team['team_size'] }}
                         </span>
                     </div>
-                    
-                    <a href="/messages/{{ team['id'] }}" class="join-btn message-btn">
+
+                    <a href="/messages/{{ team['id'] }}" class="join-btn">
                         💬 View Messages
                     </a>
                     {% if team['is_leader'] %}
                         <form action="/delete-team/{{ team['id'] }}" method="POST" style="display: inline;">
-                            <button type="submit" class="join-btn delete-btn" onclick="return confirm('Are you sure you want to delete this team? This action cannot be undone.')">
+                            <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this team? This action cannot be undone.')">
                                 🗑️ Delete Team
                             </button>
                         </form>
@@ -297,9 +340,9 @@
             <div class="no-teams">
                 <h3>No teams yet</h3>
                 <p>You haven't joined or created any teams yet.</p>
-                <a href="/find-teams" class="create-link">Find Teams →</a>
-                <br>
-                <a href="/create-team" class="create-link">Create a Team →</a>
+                <a href="/find-teams" class="create-link">🔍 Find Teams →</a>
+                <br><br>
+                <a href="/create-team" class="create-link">➕ Create a Team →</a>
             </div>
         {% endif %}
     </div>

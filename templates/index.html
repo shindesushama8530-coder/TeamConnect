@@ -5,191 +5,308 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TeamConnect</title>
+    <title>TeamConnect - Find Your Perfect Team</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --white: #ffffff;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f7ff;
-            color: #1f2937;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        /* Navigation */
-
-        nav {
-            height: 70px;
-            background: white;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 8%;
-
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
         }
 
-        .logo {
-            font-size: 26px;
-            font-weight: bold;
-            color: #4f46e5;
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            margin-left: 30px;
-            font-weight: 500;
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
-        .nav-links a:hover {
-            color: #4f46e5;
-        }
-
-
-        /* Hero Section */
-
-        .hero {
-            min-height: 500px;
-
-            display: flex;
-            flex-direction: column;
-
-            justify-content: center;
-            align-items: center;
-
+        .landing-hero {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 100px 40px;
+            border-radius: 30px;
             text-align: center;
-
-            padding: 60px 20px;
-
-            background: linear-gradient(
-                135deg,
-                #eef2ff,
-                #ffffff
-            );
+            margin: 40px auto;
+            max-width: 1200px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero h1 {
-            font-size: 52px;
-            max-width: 850px;
-            margin-bottom: 20px;
+        .landing-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            opacity: 0.3;
         }
 
-        .hero h1 span {
-            color: #4f46e5;
+        .landing-hero h1 {
+            font-size: 64px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
         }
 
-        .hero p {
+        .landing-hero h1 span {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .landing-hero p {
+            font-size: 22px;
+            opacity: 0.95;
+            margin-bottom: 48px;
+            position: relative;
+            z-index: 1;
             max-width: 700px;
-            font-size: 18px;
-            line-height: 1.7;
-            color: #555;
-            margin-bottom: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
         }
 
-
-        /* Buttons */
-
-        .buttons {
+        .hero-buttons {
             display: flex;
-            gap: 15px;
+            gap: 20px;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
         }
 
         .btn {
-            padding: 13px 28px;
-
-            border-radius: 8px;
-
+            padding: 16px 36px;
+            border-radius: 12px;
             text-decoration: none;
-
-            font-weight: bold;
-
-            display: inline-block;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
         }
 
-        .primary {
-            background: #4f46e5;
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
-        .secondary {
-            background: white;
-            color: #4f46e5;
-
-            border: 2px solid #4f46e5;
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
         }
 
-        .primary:hover {
-            background: #3730a3;
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
-        .secondary:hover {
-            background: #eef2ff;
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-4px);
         }
 
+        .features-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 80px 40px;
+            margin: 40px auto;
+            max-width: 1200px;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
 
-        /* Features */
-
-        .features {
-            padding: 70px 8%;
+        .features-section h2 {
+            font-size: 48px;
             text-align: center;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -1px;
         }
 
-        .features h2 {
-            font-size: 32px;
+        .features-section p.subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 60px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-card .icon {
+            font-size: 56px;
+            margin-bottom: 24px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 80px 40px;
+            margin: 40px auto;
+            max-width: 1200px;
+            border-radius: 30px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats-section h2 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+
+        .stats-section p {
+            font-size: 18px;
+            opacity: 0.9;
             margin-bottom: 40px;
         }
 
-        .feature-container {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
         }
 
-        .card {
-            background: white;
-
-            width: 280px;
-
-            padding: 30px;
-
-            border-radius: 12px;
-
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        .stat-item h3 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .card h3 {
-            margin-bottom: 15px;
-            color: #4f46e5;
+        .stat-item p {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 500;
         }
 
-        .card p {
-            line-height: 1.6;
-            color: #666;
+        @media (max-width: 768px) {
+            .landing-hero h1 {
+                font-size: 42px;
+            }
+
+            .landing-hero p {
+                font-size: 18px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .features-section h2 {
+                font-size: 36px;
+            }
+
+            .stats-section h2 {
+                font-size: 32px;
+            }
         }
-
-
-        /* Footer */
-
-        footer {
-            background: #111827;
-            color: white;
-
-            text-align: center;
-
-            padding: 25px;
-
-            margin-top: 30px;
-        }
-
     </style>
 
 </head>
@@ -198,131 +315,124 @@
 <body>
 
     <!-- Navigation -->
-
-    <nav>
-
-        <div class="logo">
-            TeamConnect
+    <nav style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 20px 40px; border-radius: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+        <div style="font-size: 28px; font-weight: 800; color: white;">
+            🚀 Team<span style="color: #f093fb;">Connect</span>
         </div>
-
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="#features">Features</a>
-            <a href="#about">About</a>
+        <div style="display: flex; gap: 12px;">
+            <a href="/" style="color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; font-weight: 500;">Home</a>
+            <a href="#features" style="color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; font-weight: 500;">Features</a>
+            <a href="#about" style="color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; font-weight: 500;">About</a>
+            <a href="/login" style="background: rgba(255, 255, 255, 0.2); color: white; text-decoration: none; padding: 10px 24px; border-radius: 10px; transition: all 0.3s ease; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.3);">Login</a>
+            <a href="/register" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; padding: 10px 24px; border-radius: 10px; transition: all 0.3s ease; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">Register</a>
         </div>
-
     </nav>
 
-
     <!-- Hero Section -->
-
-    <section class="hero">
-
+    <section class="landing-hero">
         <h1>
-            Find the Right
-            <span>Team</span>.
-            Build Something
-            <span>Great</span>.
+            Find the Right <span>Team</span>.
+            <br>Build Something <span>Great</span>.
         </h1>
-
         <p>
             TeamConnect is a centralized platform that helps
             students discover teammates, create teams and
             collaborate on hackathons, competitions,
             academic projects and college activities.
         </p>
-
-        <div class="buttons">
-
-            <a href="/login" class="btn primary">
-                Login to Find Teams
+        <div class="hero-buttons">
+            <a href="/login" class="btn btn-primary">
+                🔐 Login to Find Teams
             </a>
-
-            <a href="/register" class="btn secondary">
-                Register to Create Team
+            <a href="/register" class="btn btn-secondary">
+                ✨ Register to Create Team
             </a>
-
         </div>
-
     </section>
 
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <h2>Everything You Need to Build a Team</h2>
+        <p class="subtitle">Discover powerful features designed to help you connect with the right teammates</p>
 
-    <!-- Features -->
-
-    <section class="features" id="features">
-
-        <h2>
-            Everything You Need to Build a Team
-        </h2>
-
-        <div class="feature-container">
-
-            <div class="card">
-
-                <h3>👥 Find Teammates</h3>
-
-                <p>
-                    Discover students based on skills,
-                    department, year and interests.
-                </p>
-
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="icon">👥</div>
+                <h3>Find Teammates</h3>
+                <p>Discover students based on skills, department, year and interests to build the perfect team.</p>
             </div>
 
-
-            <div class="card">
-
-                <h3>🚀 Create a Team</h3>
-
-                <p>
-                    Create a team for hackathons,
-                    competitions and academic projects.
-                </p>
-
+            <div class="feature-card">
+                <div class="icon">🚀</div>
+                <h3>Create a Team</h3>
+                <p>Create a team for hackathons, competitions and academic projects with just a few clicks.</p>
             </div>
 
-
-            <div class="card">
-
-                <h3>🤝 Join Teams</h3>
-
-                <p>
-                    Explore available teams and
-                    send requests to join them.
-                </p>
-
+            <div class="feature-card">
+                <div class="icon">🤝</div>
+                <h3>Join Teams</h3>
+                <p>Explore available teams and send requests to join projects that match your interests.</p>
             </div>
 
+            <div class="feature-card">
+                <div class="icon">💬</div>
+                <h3>Team Messaging</h3>
+                <p>Communicate with your team members through built-in messaging for seamless collaboration.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">📊</div>
+                <h3>Track Progress</h3>
+                <p>Monitor team member counts, manage requests and keep track of your team's status.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">🎯</div>
+                <h3>Smart Matching</h3>
+                <p>Get matched with teams based on your skills, interests and project requirements.</p>
+            </div>
         </div>
-
     </section>
 
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <h2>Join Thousands of Students</h2>
+        <p>Already building amazing teams together</p>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>500+</h3>
+                <p>Active Teams</p>
+            </div>
+            <div class="stat-item">
+                <h3>2000+</h3>
+                <p>Students</p>
+            </div>
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>Projects Completed</p>
+            </div>
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Universities</p>
+            </div>
+        </div>
+    </section>
 
-    <!-- About -->
-
-    <section class="features" id="about">
-
-        <h2>
-            Why TeamConnect?
-        </h2>
-
-        <p>
+    <!-- About Section -->
+    <section class="features-section" id="about">
+        <h2>Why TeamConnect?</h2>
+        <p class="subtitle">
             Students often have different skills and interests,
             but finding the right teammates can be difficult.
             TeamConnect brings students together on one platform
             so they can discover opportunities and build teams.
         </p>
-
     </section>
 
-
     <!-- Footer -->
-
-    <footer>
-
-        <p>
-            © 2026 TeamConnect | Centralized Team Management Platform
-        </p>
-
+    <footer style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; margin-top: 60px; border-radius: 20px; text-align: center; color: white;">
+        <p style="font-size: 16px; font-weight: 500;">© 2026 TeamConnect | Centralized Team Management Platform</p>
+        <p style="margin-top: 12px; font-size: 14px; opacity: 0.7;">Made with ❤️ for students everywhere</p>
     </footer>
 
 </body>
