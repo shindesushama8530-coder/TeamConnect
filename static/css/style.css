@@ -1,573 +1,631 @@
-/* ============================================
-   TeamConnect - Modern Design System
-   ============================================ */
+/* ==========================================================================
+   TeamConnect Design System — Ultra-Modern Campus Collaboration Platform
+   ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* Brand Colors */
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #e0e7ff;
+    --primary-glow: rgba(79, 70, 229, 0.35);
+    
+    --secondary: #8b5cf6;
+    --secondary-hover: #7c3aed;
+    --secondary-light: #ede9fe;
+    
+    --accent: #06b6d4;
+    --accent-glow: rgba(6, 182, 212, 0.35);
+
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+
+    /* Neutrals & Dark Theme Accents */
+    --slate-900: #0f172a;
+    --slate-800: #1e293b;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+
+    /* Gradients */
+    --grad-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+    --grad-hero: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 100%);
+    --grad-card-glow: radial-gradient(circle at top left, rgba(99, 102, 241, 0.15), transparent 70%);
+    --grad-mesh: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                 radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
+                 radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.10) 0px, transparent 50%);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 12px 30px rgba(15, 23, 42, 0.12), 0 4px 12px rgba(15, 23, 42, 0.06);
+    --shadow-xl: 0 20px 45px rgba(15, 23, 42, 0.18), 0 8px 20px rgba(15, 23, 42, 0.08);
+    --shadow-glow: 0 10px 30px -10px var(--primary-glow);
+
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.88);
+    --glass-bg-dark: rgba(15, 23, 42, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-blur: blur(16px);
+}
+
+/* ==========================================================================
+   Base Styles & Reset
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-:root {
-    --primary: #6366f1;
-    --primary-dark: #3a32ce;
-    --primary-light: #818cf8;
-    --secondary: #8b5cf6;
-    --accent: #ec4899;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-    --dark: #1e293b;
-    --light: #f8fafc;
-    --gray: #64748b;
-    --white: #ffffff;
-    --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
-    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--dark);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8fafc;
+    background-image: var(--grad-mesh);
+    background-attachment: fixed;
+    color: var(--slate-800);
     line-height: 1.6;
-    background: var(--light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
 }
 
-/* ============================================
-   Animations
-   ============================================ */
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--slate-900);
+    letter-spacing: -0.02em;
+    font-weight: 700;
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
+img {
+    max-width: 100%;
+    display: block;
+    object-fit: cover;
 }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+/* ==========================================================================
+   Navigation Bar
+   ========================================================================== */
+.tc-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+    transition: all 0.3s ease;
 }
 
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
-}
-
-/* ============================================
-   Navigation
-   ============================================ */
-
-.navbar {
-    background: var(--white);
-    height: 70px;
+.tc-nav-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 14px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 6%;
-    box-shadow: var(--shadow-md);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    transition: all 0.3s ease;
 }
 
-.navbar.scrolled {
-    box-shadow: var(--shadow-lg);
-}
-
-.logo {
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--primary);
+.tc-logo {
     display: flex;
     align-items: center;
-    gap: 10px;
-    transition: transform 0.3s ease;
+    gap: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.03em;
 }
 
-.logo:hover {
-    transform: scale(1.05);
-}
-
-.logo span {
-    color: var(--secondary);
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--gray);
-    padding: 10px 16px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    font-weight: 500;
-    position: relative;
-    overflow: hidden;
-}
-
-.nav-links a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: var(--gradient-1);
-    transition: left 0.3s ease;
-    z-index: -1;
-}
-
-.nav-links a:hover {
-    color: var(--white);
-    transform: translateY(-2px);
-}
-
-.nav-links a:hover::before {
-    left: 0;
-}
-
-.nav-links .register {
-    background: var(--gradient-1);
-    color: var(--white) !important;
-}
-
-.nav-links .register:hover {
-    box-shadow: var(--shadow-md);
-}
-
-.nav-links .logout {
-    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    color: var(--danger) !important;
-}
-
-.nav-links .logout:hover {
-    background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
-    box-shadow: var(--shadow-md);
-}
-
-/* ============================================
-   Buttons
-   ============================================ */
-
-.btn {
-    padding: 12px 28px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-block;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: none;
-    font-size: 15px;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 0.5s ease;
-}
-
-.btn:hover::before {
-    left: 100%;
-}
-
-.btn-primary {
-    background: var(--gradient-1);
-    color: var(--white);
-    box-shadow: var(--shadow-md);
-}
-
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-}
-
-.btn-secondary {
-    background: var(--white);
-    color: var(--primary);
-    border: 2px solid var(--primary);
-}
-
-.btn-secondary:hover {
-    background: var(--primary);
-    color: var(--white);
-    transform: translateY(-3px);
-}
-
-.btn-success {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: var(--white);
-}
-
-.btn-success:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-}
-
-.btn-danger {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: var(--white);
-}
-
-.btn-danger:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-}
-
-/* ============================================
-   Cards
-   ============================================ */
-
-.card {
-    background: var(--white);
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    animation: fadeIn 0.5s ease-in;
-}
-
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-xl);
-}
-
-.card-icon {
-    width: 60px;
-    height: 60px;
+.tc-logo-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--grad-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 16px;
-    background: var(--gradient-1);
-    font-size: 28px;
-    margin-bottom: 20px;
-    animation: float 3s ease-in-out infinite;
-}
-
-.card h3 {
-    color: var(--dark);
-    margin-bottom: 12px;
+    color: var(--white);
     font-size: 20px;
+    box-shadow: var(--shadow-glow);
+    transition: transform 0.3s ease;
 }
 
-.card p {
-    color: var(--gray);
-    line-height: 1.6;
-    margin-bottom: 15px;
+.tc-logo:hover .tc-logo-badge {
+    transform: rotate(8deg) scale(1.05);
 }
 
-/* ============================================
-   Forms
-   ============================================ */
-
-.form-group {
-    margin-bottom: 20px;
+.tc-logo span {
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--dark);
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 14px;
-    border: 2px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    background: var(--white);
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-}
-
-.form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-/* ============================================
-   Badges
-   ============================================ */
-
-.badge {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.badge-open {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    color: #059669;
-}
-
-.badge-almost-full {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    color: #d97706;
-}
-
-.badge-full {
-    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    color: #dc2626;
-}
-
-.badge-pending {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    color: #2563eb;
-}
-
-.badge-approved {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    color: #059669;
-}
-
-.badge-rejected {
-    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    color: #dc2626;
-}
-
-/* ============================================
-   Status Indicators
-   ============================================ */
-
-.status-indicator {
-    display: inline-flex;
+.tc-nav-links {
+    display: flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
+}
+
+.tc-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 14.5px;
     font-weight: 600;
+    color: var(--slate-600);
+    transition: all 0.2s ease;
 }
 
-.status-indicator::before {
-    content: '';
-    width: 8px;
-    height: 8px;
+.tc-nav-link:hover {
+    color: var(--primary);
+    background: rgba(79, 70, 229, 0.08);
+    transform: translateY(-1px);
+}
+
+.tc-nav-link.active {
+    color: var(--primary);
+    background: var(--primary-light);
+    font-weight: 700;
+}
+
+.tc-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tc-nav-user-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px 6px 8px;
+    background: var(--white);
+    border: 1px solid var(--slate-200);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+
+.tc-nav-user-pill:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);
+}
+
+.tc-avatar-circle {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
+    background: var(--grad-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    object-fit: cover;
 }
 
-.status-indicator.online::before {
-    background: var(--success);
+.tc-nav-user-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--slate-800);
 }
 
-.status-indicator.offline::before {
-    background: var(--gray);
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.tc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    white-space: nowrap;
 }
 
-/* ============================================
-   Containers
-   ============================================ */
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
+.tc-btn:hover {
+    transform: translateY(-2px);
 }
 
-.hero {
-    background: var(--gradient-1);
+.tc-btn:active {
+    transform: translateY(0);
+}
+
+.tc-btn-primary {
+    background: var(--grad-primary);
     color: var(--white);
-    padding: 80px 40px;
-    border-radius: 24px;
-    text-align: center;
-    margin-bottom: 40px;
-    box-shadow: var(--shadow-xl);
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
+}
+
+.tc-btn-primary:hover {
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.45);
+    filter: brightness(1.05);
+}
+
+.tc-btn-secondary {
+    background: var(--white);
+    color: var(--slate-700);
+    border: 1px solid var(--slate-200);
+    box-shadow: var(--shadow-sm);
+}
+
+.tc-btn-secondary:hover {
+    background: var(--slate-50);
+    color: var(--primary);
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
+}
+
+.tc-btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.tc-btn-success:hover {
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.tc-btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.tc-btn-danger:hover {
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+}
+
+.tc-btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+}
+
+.tc-btn-outline:hover {
+    background: var(--primary-light);
+}
+
+.tc-btn-sm {
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 8px;
+}
+
+.tc-btn-lg {
+    padding: 14px 30px;
+    font-size: 16px;
+    border-radius: 14px;
+}
+
+/* ==========================================================================
+   Alerts & Notifications
+   ========================================================================== */
+.tc-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+    font-size: 14.5px;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+    animation: tcSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tc-alert-success {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+}
+
+.tc-alert-danger {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+.tc-alert-info {
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    color: #3730a3;
+}
+
+@keyframes tcSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   Glassmorphic & Content Cards
+   ========================================================================== */
+.tc-card {
+    background: var(--white);
+    border-radius: 20px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
 }
 
-.hero::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    animation: shimmer 20s linear infinite;
+.tc-card:hover {
+    box-shadow: var(--shadow-xl);
+    border-color: rgba(99, 102, 241, 0.25);
+    transform: translateY(-4px);
 }
 
-.hero h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 1;
+.tc-card-glass {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-.hero p {
-    font-size: 18px;
-    opacity: 0.95;
-    margin-bottom: 30px;
-    position: relative;
-    z-index: 1;
-}
-
-/* ============================================
-   Responsive Design
-   ============================================ */
-
-@media (max-width: 768px) {
-    .navbar {
-        padding: 0 4%;
-        height: auto;
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px 4%;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .hero {
-        padding: 40px 20px;
-    }
-
-    .hero h1 {
-        font-size: 32px;
-    }
-
-    .container {
-        padding: 20px;
-    }
-}
-
-/* ============================================
-   Loading Spinner
-   ============================================ */
-
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(99, 102, 241, 0.2);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* ============================================
-   Toast Notifications
-   ============================================ */
-
-.toast {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 16px 24px;
-    border-radius: 12px;
-    color: var(--white);
+/* ==========================================================================
+   Badges, Pills & Tags
+   ========================================================================== */
+.tc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
     font-weight: 600;
-    z-index: 9999;
-    animation: slideIn 0.3s ease;
-    box-shadow: var(--shadow-lg);
+    letter-spacing: 0.02em;
 }
 
-.toast-success {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+.tc-badge-open {
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
 }
 
-.toast-error {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+.tc-badge-warning {
+    background: #fffbeb;
+    color: #d97706;
+    border: 1px solid #fde68a;
 }
 
-.toast-info {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+.tc-badge-full {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
 }
 
-/* ============================================
+.tc-badge-primary {
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid #c7d2fe;
+}
+
+.tc-badge-dark {
+    background: var(--slate-800);
+    color: var(--white);
+}
+
+.tc-skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #f1f5f9;
+    color: var(--slate-700);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.tc-skill-tag:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: #c7d2fe;
+}
+
+/* ==========================================================================
+   Input & Form Controls
+   ========================================================================== */
+.tc-form-group {
+    margin-bottom: 20px;
+}
+
+.tc-label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--slate-700);
+    margin-bottom: 8px;
+}
+
+.tc-input, .tc-select, .tc-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--slate-800);
+    background: var(--white);
+    border: 1.5px solid var(--slate-200);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.tc-input:focus, .tc-select:focus, .tc-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+    background: var(--white);
+}
+
+.tc-textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Hero Banners with Real-Time Photographic Styling
+   ========================================================================== */
+.tc-hero-photo-banner {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow-xl);
+    margin-bottom: 40px;
+}
+
+.tc-hero-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    filter: brightness(0.7) contrast(1.1);
+    transition: transform 0.6s ease;
+}
+
+.tc-hero-photo-banner:hover .tc-hero-bg-img {
+    transform: scale(1.03);
+}
+
+.tc-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 27, 75, 0.75) 55%, rgba(79, 70, 229, 0.4) 100%);
+    z-index: 2;
+}
+
+.tc-hero-content {
+    position: relative;
+    z-index: 3;
+    padding: 48px;
+    max-width: 750px;
+    color: var(--white);
+}
+
+.tc-hero-title {
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 14px;
+    letter-spacing: -0.03em;
+}
+
+.tc-hero-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+/* ==========================================================================
+   Progress Bar
+   ========================================================================== */
+.tc-progress {
+    width: 100%;
+    height: 8px;
+    background: var(--slate-200);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.tc-progress-bar {
+    height: 100%;
+    background: var(--grad-primary);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+/* ==========================================================================
    Footer
-   ============================================ */
-
-footer {
-    background: var(--dark);
-    color: var(--white);
-    text-align: center;
-    padding: 30px;
-    margin-top: 60px;
+   ========================================================================== */
+.tc-footer {
+    margin-top: auto;
+    background: var(--slate-900);
+    color: var(--slate-400);
+    padding: 48px 24px 24px;
+    border-top: 1px solid var(--slate-800);
 }
 
-footer a {
-    color: var(--primary-light);
-    text-decoration: none;
-    transition: color 0.3s ease;
+.tc-footer-content {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-footer a:hover {
+.tc-footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.tc-footer-links a:hover {
     color: var(--white);
+}
+
+/* ==========================================================================
+   Responsiveness
+   ========================================================================== */
+@media (max-width: 900px) {
+    .tc-nav-links {
+        display: none;
+    }
+    
+    .tc-hero-title {
+        font-size: 28px;
+    }
+    
+    .tc-hero-content {
+        padding: 30px 20px;
+    }
 }

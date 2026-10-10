@@ -1,367 +1,396 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Dashboard - TeamConnect</title>
-<link rel="stylesheet" href="/static/css/style.css">
-
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    :root {
-        --primary: #f97316;
-        --primary-dark: #ea580c;
-        --secondary: #fb923c;
-        --dark: #1e293b;
-        --light: #fff7ed;
-        --gray: #64748b;
-        --white: #ffffff;
-    }
-
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
-        min-height: 100vh;
-    }
-
-    @keyframes shimmer {
-        0% {
-            background-position: -200% 0;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard — TeamConnect</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1320px;
+            margin: 28px auto 60px;
+            padding: 0 24px;
+            width: 100%;
         }
-        100% {
-            background-position: 200% 0;
+        .stats-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
         }
-    }
-
-    @keyframes float {
-        0%, 100% {
-            transform: translateY(0);
+        .stat-card-widget {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
         }
-        50% {
-            transform: translateY(-10px);
+        .stat-card-widget:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+            border-color: rgba(79, 70, 229, 0.3);
         }
-    }
+        .stat-widget-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+        .stat-icon-1 { background: #eef2ff; color: #4f46e5; }
+        .stat-icon-2 { background: #fef3c7; color: #d97706; }
+        .stat-icon-3 { background: #ecfdf5; color: #059669; }
 
-    .dashboard-hero {
-        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-        color: white;
-        padding: 50px 40px;
-        border-radius: 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 40px;
-        box-shadow: 0 20px 40px rgba(249, 115, 22, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
+        .stat-widget-info h4 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--slate-900);
+            line-height: 1.1;
+        }
+        .stat-widget-info p {
+            font-size: 13.5px;
+            color: var(--slate-500);
+            font-weight: 600;
+        }
 
-    .dashboard-hero::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        animation: shimmer 20s linear infinite;
-    }
-
-    .hero-text {
-        max-width: 700px;
-        position: relative;
-        z-index: 1;
-    }
-
-    .hero-text h1 {
-        font-size: 42px;
-        margin-bottom: 15px;
-        font-weight: 800;
-    }
-
-    .hero-text p {
-        font-size: 18px;
-        line-height: 1.7;
-        opacity: 0.95;
-    }
-
-    .hero-icon {
-        font-size: 100px;
-        opacity: 0.9;
-        animation: float 3s ease-in-out infinite;
-        position: relative;
-        z-index: 1;
-    }
-
-    .section-title {
-        margin: 40px 0 25px;
-    }
-
-    .section-title h2 {
-        font-size: 32px;
-        color: var(--dark);
-        margin-bottom: 8px;
-    }
-
-    .section-title p {
-        color: var(--gray);
-        font-size: 16px;
-    }
-
-    .cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 25px;
-    }
-
-    .card {
-        background: white;
-        padding: 35px;
-        border-radius: 20px;
-        border: 2px solid transparent;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
-    }
-
-    .card:hover::before {
-        transform: scaleX(1);
-    }
-
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        border-color: #e2e8f0;
-    }
-
-    .card-icon {
-        width: 65px;
-        height: 65px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 16px;
-        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-        font-size: 32px;
-        margin-bottom: 20px;
-        animation: float 3s ease-in-out infinite;
-    }
-
-    .card h3 {
-        margin-bottom: 12px;
-        color: var(--dark);
-        font-size: 20px;
-    }
-
-    .card p {
-        color: var(--gray);
-        font-size: 15px;
-        line-height: 1.6;
-        min-height: 60px;
-    }
-
-    .card a {
-        display: inline-block;
-        margin-top: 20px;
-        text-decoration: none;
-        color: var(--primary);
-        font-weight: 600;
-        font-size: 14px;
-        transition: all 0.3s ease;
-    }
-
-    .card a:hover {
-        color: var(--primary-dark);
-        transform: translateX(5px);
-    }
-
-    .quick-section {
-        margin-top: 50px;
-        background: white;
-        padding: 40px;
-        border-radius: 24px;
-        border: 2px solid #e2e8f0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .quick-section h2 {
-        margin-bottom: 10px;
-        font-size: 28px;
-        color: var(--dark);
-    }
-
-    .quick-section p {
-        color: var(--gray);
-        margin-bottom: 25px;
-        font-size: 16px;
-    }
-
-    .quick-buttons {
-        display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
-    }
-
-    .quick-buttons a {
-        text-decoration: none;
-        padding: 14px 24px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
-        color: var(--primary);
-        font-weight: 600;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-    }
-
-    .quick-buttons a:hover {
-        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-        color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);
-    }
-
-    @media (max-width: 768px) {
-        .dashboard-hero {
+        /* Hub Section */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-bottom: 50px;
+        }
+        .workspace-card {
+            background: var(--white);
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-md);
+            transition: all 0.35s ease;
+            display: flex;
             flex-direction: column;
-            text-align: center;
-            padding: 40px 20px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .workspace-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(79, 70, 229, 0.3);
+        }
+        .workspace-card-media {
+            height: 170px;
+            position: relative;
+            overflow: hidden;
+        }
+        .workspace-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .workspace-card:hover .workspace-card-img {
+            transform: scale(1.06);
+        }
+        .workspace-card-pill {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: var(--glass-blur);
+            color: white;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .workspace-card-body {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .workspace-card-body h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .workspace-card-body p {
+            color: var(--slate-600);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            flex: 1;
+        }
+        .workspace-card-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 14px;
         }
 
-        .hero-icon {
-            font-size: 70px;
-            margin-top: 20px;
+        /* Recommended Teams Feed */
+        .rec-feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .rec-team-card {
+            background: var(--white);
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s ease;
+        }
+        .rec-team-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
         }
 
-        .hero-text h1 {
-            font-size: 32px;
+        @media (max-width: 1024px) {
+            .stats-cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
         }
-
-        .cards {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
+    </style>
 </head>
-
 <body>
 
-<!-- Navigation -->
-<nav class="navbar">
-    <div class="logo">
-        🚀 Team<span>Connect</span>
+    <!-- Unified Navigation Bar -->
+    <header class="tc-navbar">
+        <div class="tc-nav-container">
+            <a href="/dashboard" class="tc-logo">
+                <div class="tc-logo-badge">🚀</div>
+                Team<span>Connect</span>
+            </a>
+            <nav class="tc-nav-links">
+                <a href="/dashboard" class="tc-nav-link active">Dashboard</a>
+                <a href="/find-teams" class="tc-nav-link">Find Teams</a>
+                <a href="/my-teams" class="tc-nav-link">My Teams</a>
+                <a href="/create-team" class="tc-nav-link">Create Team</a>
+                <a href="/requests" class="tc-nav-link">
+                    Requests
+                    {% if incoming_requests_count and incoming_requests_count > 0 %}
+                    <span class="tc-badge tc-badge-warning" style="font-size: 11px; padding: 1px 6px;">{{ incoming_requests_count }}</span>
+                    {% endif %}
+                </a>
+                <a href="/my-requests" class="tc-nav-link">My Applications</a>
+                <a href="/profile" class="tc-nav-link">Profile</a>
+            </nav>
+            <div class="tc-nav-actions">
+                <a href="/profile" class="tc-nav-user-pill">
+                    <img class="tc-avatar-circle" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Profile">
+                    <span class="tc-nav-user-name">{{ name }}</span>
+                </a>
+                <a href="/logout" class="tc-btn tc-btn-secondary tc-btn-sm" style="color: var(--danger);">Sign Out</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Hero Photo Banner with Real Campus Background -->
+        <div class="tc-hero-photo-banner">
+            <img class="tc-hero-bg-img" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" alt="Students in college tech lab">
+            <div class="tc-hero-overlay"></div>
+            <div class="tc-hero-content">
+                <div class="tc-badge tc-badge-open" style="margin-bottom: 14px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3);">
+                    ● Student Workspace
+                </div>
+                <h1 class="tc-hero-title">Welcome back, {{ name }}! 👋</h1>
+                <p class="tc-hero-subtitle">
+                    Explore active rosters, collaborate with fellow students, and build groundbreaking projects together.
+                </p>
+                <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+                    <a href="/find-teams" class="tc-btn tc-btn-primary">
+                        <span>🔍 Explore Open Teams</span>
+                    </a>
+                    <a href="/create-team" class="tc-btn tc-btn-secondary" style="background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.3);">
+                        <span>➕ Launch New Team</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-Time Metrics Widgets -->
+        <div class="stats-cards-grid">
+            <div class="stat-card-widget">
+                <div class="stat-widget-icon stat-icon-1">👥</div>
+                <div class="stat-widget-info">
+                    <h4>{{ teams_count if teams_count is defined else 1 }}</h4>
+                    <p>Active Teams Joined or Led</p>
+                </div>
+            </div>
+
+            <div class="stat-card-widget">
+                <div class="stat-widget-icon stat-icon-2">📩</div>
+                <div class="stat-widget-info">
+                    <h4>{{ pending_requests_count if pending_requests_count is defined else 0 }}</h4>
+                    <p>Pending Applications Sent</p>
+                </div>
+            </div>
+
+            <div class="stat-card-widget">
+                <div class="stat-widget-icon stat-icon-3">⚡</div>
+                <div class="stat-widget-info">
+                    <h4>{{ incoming_requests_count if incoming_requests_count is defined else 0 }}</h4>
+                    <p>Incoming Join Requests to Review</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Core Hub Workspaces with Real Imagery -->
+        <div style="margin-bottom: 24px;">
+            <h2 style="font-size: 24px; color: var(--slate-900);">Your Collaboration Hub</h2>
+            <p style="color: var(--slate-500); font-size: 14.5px;">Quick access to all essential team management tools.</p>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Card 1: Find Teams -->
+            <a href="/find-teams" class="workspace-card">
+                <div class="workspace-card-media">
+                    <img class="workspace-card-img" src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80" alt="Students coding at hackathon">
+                    <span class="workspace-card-pill">Discovery</span>
+                </div>
+                <div class="workspace-card-body">
+                    <h3>Find Teams <span>🔍</span></h3>
+                    <p>Search open rosters filtered by hackathon, technical skill requirements, department, and team openings.</p>
+                    <div class="workspace-card-action">Browse Teams →</div>
+                </div>
+            </a>
+
+            <!-- Card 2: My Teams -->
+            <a href="/my-teams" class="workspace-card">
+                <div class="workspace-card-media">
+                    <img class="workspace-card-img" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80" alt="Team collaborating around table">
+                    <span class="workspace-card-pill">Active Squads</span>
+                </div>
+                <div class="workspace-card-body">
+                    <h3>My Teams <span>👥</span></h3>
+                    <p>View teams you've joined or created, manage member rosters, and open dedicated team messaging channels.</p>
+                    <div class="workspace-card-action">View My Teams →</div>
+                </div>
+            </a>
+
+            <!-- Card 3: Create Team -->
+            <a href="/create-team" class="workspace-card">
+                <div class="workspace-card-media">
+                    <img class="workspace-card-img" src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80" alt="Project brainstorming with sticky notes">
+                    <span class="workspace-card-pill">Recruitment</span>
+                </div>
+                <div class="workspace-card-body">
+                    <h3>Create a Team <span>➕</span></h3>
+                    <p>Post a new project or competition roster specifying required skills and maximum capacity to attract talent.</p>
+                    <div class="workspace-card-action">Start Recruitment →</div>
+                </div>
+            </a>
+
+            <!-- Card 4: Join Requests -->
+            <a href="/requests" class="workspace-card">
+                <div class="workspace-card-media">
+                    <img class="workspace-card-img" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80" alt="Student discussions">
+                    <span class="workspace-card-pill">Approvals</span>
+                </div>
+                <div class="workspace-card-body">
+                    <h3>Review Applications <span>📩</span></h3>
+                    <p>Evaluate incoming student join requests for teams you lead. Inspect applicant skills and approve or reject.</p>
+                    <div class="workspace-card-action">Manage Requests →</div>
+                </div>
+            </a>
+
+            <!-- Card 5: Profile -->
+            <a href="/profile" class="workspace-card">
+                <div class="workspace-card-media">
+                    <img class="workspace-card-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Student profile avatar">
+                    <span class="workspace-card-pill">Portfolio</span>
+                </div>
+                <div class="workspace-card-body">
+                    <h3>My Profile <span>👤</span></h3>
+                    <p>Manage your public skill tags, graduation year, major, project bio, and contact information.</p>
+                    <div class="workspace-card-action">Update Profile →</div>
+                </div>
+            </a>
+
+            <!-- Card 6: My Requests -->
+            <a href="/my-requests" class="workspace-card">
+                <div class="workspace-card-media">
+                    <img class="workspace-card-img" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Student coding setup">
+                    <span class="workspace-card-pill">Status</span>
+                </div>
+                <div class="workspace-card-body">
+                    <h3>My Sent Applications <span>📝</span></h3>
+                    <p>Track real-time status of your join requests (Pending, Accepted, Rejected) with instant withdraw options.</p>
+                    <div class="workspace-card-action">Check Status →</div>
+                </div>
+            </a>
+        </div>
+
+        {% if recommended_teams and recommended_teams|length > 0 %}
+        <!-- Recent / Recommended Rosters Feed -->
+        <div class="rec-feed-header">
+            <div>
+                <h2 style="font-size: 22px; color: var(--slate-900);">Recently Created Teams</h2>
+                <p style="color: var(--slate-500); font-size: 14px;">Discover squads that were just posted by students.</p>
+            </div>
+            <a href="/find-teams" class="tc-btn tc-btn-secondary tc-btn-sm">View All Teams →</a>
+        </div>
+
+        <div class="rec-grid">
+            {% for r_team in recommended_teams %}
+            <div class="rec-team-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <span class="tc-badge tc-badge-primary">{{ r_team[2] }}</span>
+                    <span class="tc-badge tc-badge-open">{{ r_team[5] }}/{{ r_team[4] }} filled</span>
+                </div>
+                <h3 style="font-size: 18px; margin-bottom: 6px; color: var(--slate-900);">{{ r_team[1] }}</h3>
+                <p style="font-size: 13px; color: var(--slate-500); margin-bottom: 12px;">Looking for: <strong>{{ r_team[3] or 'Open to all' }}</strong></p>
+                <a href="/find-teams?search={{ r_team[1] }}" class="tc-btn tc-btn-outline tc-btn-sm" style="width: 100%;">Inspect & Apply →</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
-    <div class="nav-links">
-        <a href="/dashboard">Dashboard</a>
-        <a href="/profile">Profile</a>
-        <a href="/find-teams">Find Teams</a>
-        <a href="/create-team">Create Team</a>
-        <a href="/requests">Requests</a>
-        <a href="/my-requests">My Requests</a>
-        <a href="/login" class="logout">Logout</a>
-    </div>
-</nav>
 
-<!-- Main Content -->
-<main class="container">
-
-<!-- Hero Section -->
-<section class="dashboard-hero">
-    <div class="hero-text">
-        <h1>
-            Welcome back, {{ name }}! 👋
-        </h1>
-        <p>
-            Find talented teammates, join exciting projects,
-            and build amazing teams with TeamConnect.
-        </p>
-    </div>
-    <div class="hero-icon">
-        🤝
-    </div>
-</section>
-
-<!-- Section Title -->
-<div class="section-title">
-    <h2>Your Workspace</h2>
-    <p>Manage your teams and discover new opportunities.</p>
-</div>
-
-<!-- Cards Grid -->
-<div class="cards">
-
-    <!-- PROFILE -->
-    <div class="card">
-        <div class="card-icon">👤</div>
-        <h3>My Profile</h3>
-        <p>Manage your personal information, skills, interests and academic details.</p>
-        <a href="/profile">View Profile →</a>
-    </div>
-
-    <!-- FIND TEAMS -->
-    <div class="card">
-        <div class="card-icon">🔍</div>
-        <h3>Find Teams</h3>
-        <p>Discover teams for hackathons, competitions and academic projects.</p>
-        <a href="/find-teams">Explore Teams →</a>
-    </div>
-
-    <!-- MY TEAMS -->
-    <div class="card">
-        <div class="card-icon">👥</div>
-        <h3>My Teams</h3>
-        <p>View the teams you have joined and manage your team participation.</p>
-        <a href="/my-teams">View My Teams →</a>
-    </div>
-
-    <!-- REQUESTS -->
-    <div class="card">
-        <div class="card-icon">📩</div>
-        <h3>Join Requests</h3>
-        <p>Review and manage students who requested to join your teams.</p>
-        <a href="/requests">View Requests →</a>
-    </div>
-
-</div>
-
-<!-- Quick Actions -->
-<section class="quick-section">
-    <h2>Quick Actions ⚡</h2>
-    <p>Start your next activity with TeamConnect.</p>
-    <div class="quick-buttons">
-        <a href="/find-teams">🔍 Find a Team</a>
-        <a href="/my-teams">👥 My Teams</a>
-        <a href="/create-team">➕ Create a Team</a>
-        <a href="/my-requests">📝 My Requests</a>
-        <a href="/profile">👤 Edit Profile</a>
-        <a href="/requests">📩 Manage Requests</a>
-    </div>
-</section>
-
-</main>
-
-<!-- Footer -->
-<footer>
-    <p>© 2026 TeamConnect — Centralized Team Management Platform</p>
-    <p style="margin-top: 10px; font-size: 14px; opacity: 0.7;">Made with ❤️ for students everywhere</p>
-</footer>
+    <!-- Global Footer -->
+    <footer class="tc-footer">
+        <div class="tc-footer-content">
+            <div>
+                <div class="tc-logo" style="color: white; margin-bottom: 8px;">
+                    <div class="tc-logo-badge">🚀</div>
+                    Team<span style="color: #818cf8;">Connect</span>
+                </div>
+                <p style="font-size: 14px;">Connecting student innovators across colleges.</p>
+            </div>
+            <div class="tc-footer-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/find-teams">Explore Teams</a>
+                <a href="/profile">My Profile</a>
+                <a href="/logout">Logout</a>
+            </div>
+            <p style="font-size: 13.5px;">© 2026 TeamConnect. All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
 </html>

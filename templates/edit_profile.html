@@ -3,269 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile - TeamConnect</title>
+    <title>Edit Profile — TeamConnect</title>
+    <link rel="stylesheet" href="/static/css/style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .page-container {
+            max-width: 860px;
+            margin: 28px auto 60px;
+            padding: 0 24px;
+            width: 100%;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar h2 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 24px;
-        }
-
-        .navbar a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .form-box {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        .edit-card {
+            background: var(--white);
+            border-radius: 24px;
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.5s ease-in;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-xl);
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 15px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-
-        input:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        textarea {
-            height: 120px;
-            resize: vertical;
-        }
-
-        input:disabled {
-            background: #f5f5f5;
-            cursor: not-allowed;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .cancel-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .cancel-link a {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .cancel-link a:hover {
-            text-decoration: underline;
-        }
-
-        .form-row {
+        .form-grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 20px;
         }
-
-        @media (max-width: 600px) {
-            .form-row {
+        .suggest-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .suggest-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: var(--slate-100);
+            color: var(--slate-700);
+            cursor: pointer;
+            border: 1px solid var(--slate-200);
+            transition: all 0.2s ease;
+        }
+        .suggest-tag:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-color: #c7d2fe;
+        }
+        @media (max-width: 768px) {
+            .form-grid-2 {
                 grid-template-columns: 1fr;
             }
-        }
-
-        .flash-message {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .flash-success {
-            background: #d1fae5;
-            color: #059669;
-            border: 2px solid #10b981;
+            .edit-card {
+                padding: 24px;
+            }
         }
     </style>
 </head>
-
 <body>
 
-<div class="navbar">
-    <h2>🚀 TeamConnect</h2>
-    <a href="/dashboard">Back to Dashboard</a>
-</div>
+    <!-- Unified Navbar -->
+    <header class="tc-navbar">
+        <div class="tc-nav-container">
+            <a href="/dashboard" class="tc-logo">
+                <div class="tc-logo-badge">🚀</div>
+                Team<span>Connect</span>
+            </a>
+            <nav class="tc-nav-links">
+                <a href="/dashboard" class="tc-nav-link">Dashboard</a>
+                <a href="/find-teams" class="tc-nav-link">Find Teams</a>
+                <a href="/my-teams" class="tc-nav-link">My Teams</a>
+                <a href="/create-team" class="tc-nav-link">Create Team</a>
+                <a href="/requests" class="tc-nav-link">Requests</a>
+                <a href="/my-requests" class="tc-nav-link">My Applications</a>
+                <a href="/profile" class="tc-nav-link active">Profile</a>
+            </nav>
+            <div class="tc-nav-actions">
+                <a href="/profile" class="tc-btn tc-btn-secondary tc-btn-sm">View Profile</a>
+                <a href="/logout" class="tc-btn tc-btn-secondary tc-btn-sm" style="color: var(--danger);">Sign Out</a>
+            </div>
+        </div>
+    </header>
 
-<div class="container">
-    <div class="form-box">
-        <div class="header">
-            <h1>Edit Profile</h1>
-            <p>Update your personal information</p>
+    <div class="page-container">
+        <!-- Hero Photo Banner -->
+        <div class="tc-hero-photo-banner" style="min-height: 200px; margin-bottom: 28px;">
+            <img class="tc-hero-bg-img" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80" alt="Students studying together">
+            <div class="tc-hero-overlay"></div>
+            <div class="tc-hero-content">
+                <h1 class="tc-hero-title" style="font-size: 30px; margin-bottom: 6px;">Update Your Profile</h1>
+                <p class="tc-hero-subtitle" style="margin-bottom: 0;">Keep your skills, interests, and academic status up to date to find matching projects.</p>
+            </div>
         </div>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">
-                        {{ message }}
+        <div class="edit-card">
+            <form method="POST" action="/edit-profile">
+                <div class="tc-form-group">
+                    <label class="tc-label" for="name">Full Name *</label>
+                    <input class="tc-input" type="text" id="name" name="name" value="{{ user[0] }}" required>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="tc-form-group">
+                        <label class="tc-label" for="department">Department / Major</label>
+                        <input class="tc-input" type="text" id="department" name="department" value="{{ user[2] or '' }}" placeholder="e.g. Computer Science & Eng.">
                     </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
 
-        <form method="POST">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" value="{{ user[0] }}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" value="{{ user[1] }}" disabled>
-                <small style="color: #999; font-size: 12px;">Email cannot be changed</small>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="department">Department</label>
-                    <input type="text" id="department" name="department" value="{{ user[2] }}" required>
+                    <div class="tc-form-group">
+                        <label class="tc-label" for="year">Academic Year</label>
+                        <select class="tc-select" id="year" name="year">
+                            <option value="1st Year" {% if user[3] == '1st Year' %}selected{% endif %}>1st Year (Freshman)</option>
+                            <option value="2nd Year" {% if user[3] == '2nd Year' %}selected{% endif %}>2nd Year (Sophomore)</option>
+                            <option value="3rd Year" {% if user[3] == '3rd Year' %}selected{% endif %}>3rd Year (Junior)</option>
+                            <option value="4th Year" {% if user[3] == '4th Year' %}selected{% endif %}>4th Year (Senior)</option>
+                            <option value="Postgraduate" {% if user[3] == 'Postgraduate' %}selected{% endif %}>Graduate / Master's</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="year">Year</label>
-                    <input type="text" id="year" name="year" value="{{ user[3] }}" required>
+                <div class="tc-form-group">
+                    <label class="tc-label" for="skills">Technical Skills (Comma separated)</label>
+                    <input class="tc-input" type="text" id="skills" name="skills" value="{{ user[4] or '' }}" placeholder="Python, React, PyTorch, Figma">
+                    <div class="suggest-tags">
+                        <span class="suggest-tag" onclick="appendSkill('Python')">+ Python</span>
+                        <span class="suggest-tag" onclick="appendSkill('React')">+ React</span>
+                        <span class="suggest-tag" onclick="appendSkill('Node.js')">+ Node.js</span>
+                        <span class="suggest-tag" onclick="appendSkill('Machine Learning')">+ ML</span>
+                        <span class="suggest-tag" onclick="appendSkill('Figma')">+ Figma</span>
+                        <span class="suggest-tag" onclick="appendSkill('Docker')">+ Docker</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="skills">Skills</label>
-                <input type="text" id="skills" name="skills" value="{{ user[4] or '' }}" placeholder="e.g., Python, Flask, JavaScript">
-            </div>
+                <div class="tc-form-group">
+                    <label class="tc-label" for="interests">Interests & Preferred Domains</label>
+                    <input class="tc-input" type="text" id="interests" name="interests" value="{{ user[5] or '' }}" placeholder="e.g. Hackathons, FinTech, Autonomous Systems, HealthTech">
+                </div>
 
-            <div class="form-group">
-                <label for="interests">Interests</label>
-                <input type="text" id="interests" name="interests" value="{{ user[5] or '' }}" placeholder="e.g., Web Development, AI, Data Science">
-            </div>
+                <div class="tc-form-group">
+                    <label class="tc-label" for="bio">Bio & Project Experience</label>
+                    <textarea class="tc-textarea" id="bio" name="bio" rows="4" placeholder="Tell potential teammates about your experience, past hackathons, and what drives you...">{{ user[6] or '' }}</textarea>
+                </div>
 
-            <div class="form-group">
-                <label for="bio">Bio</label>
-                <textarea id="bio" name="bio" placeholder="Tell us about yourself...">{{ user[6] or '' }}</textarea>
-            </div>
-
-            <button type="submit">💾 Save Changes</button>
-        </form>
-
-        <div class="cancel-link">
-            <a href="/profile">← Cancel and go back</a>
+                <div style="display: flex; gap: 14px; margin-top: 30px;">
+                    <button type="submit" class="tc-btn tc-btn-primary" style="flex: 1; padding: 14px;">
+                        💾 Save Profile Changes
+                    </button>
+                    <a href="/profile" class="tc-btn tc-btn-secondary" style="padding: 14px 28px;">
+                        Cancel
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
-</div>
+
+    <!-- Global Footer -->
+    <footer class="tc-footer">
+        <div class="tc-footer-content">
+            <div>
+                <div class="tc-logo" style="color: white; margin-bottom: 8px;">
+                    <div class="tc-logo-badge">🚀</div>
+                    Team<span style="color: #818cf8;">Connect</span>
+                </div>
+                <p style="font-size: 14px;">Connecting student innovators across colleges.</p>
+            </div>
+            <div class="tc-footer-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/find-teams">Explore Teams</a>
+                <a href="/profile">My Profile</a>
+                <a href="/logout">Logout</a>
+            </div>
+            <p style="font-size: 13.5px;">© 2026 TeamConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function appendSkill(skill) {
+            const input = document.getElementById('skills');
+            if (!input.value) {
+                input.value = skill;
+            } else if (!input.value.includes(skill)) {
+                input.value += ', ' + skill;
+            }
+        }
+    </script>
 
 </body>
 </html>

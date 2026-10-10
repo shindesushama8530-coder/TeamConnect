@@ -1,440 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>TeamConnect - Find Your Perfect Team</title>
+    <title>TeamConnect — Find Your Dream Hackathon & Project Team</title>
     <link rel="stylesheet" href="/static/css/style.css">
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .hero-section {
+            max-width: 1320px;
+            margin: 30px auto 60px;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 40px;
+            align-items: center;
         }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --accent: #ec4899;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --white: #ffffff;
+        .hero-left {
+            padding-right: 20px;
         }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+        .hero-pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(79, 70, 229, 0.2);
+            border-radius: 999px;
+            font-size: 13.5px;
+            font-weight: 700;
+            margin-bottom: 20px;
         }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-            100% {
-                background-position: 200% 0;
-            }
+        .hero-title {
+            font-size: 56px;
+            line-height: 1.1;
+            font-weight: 800;
+            color: var(--slate-900);
+            margin-bottom: 20px;
+            letter-spacing: -0.03em;
         }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+        .hero-title span {
+            background: var(--grad-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        .hero-desc {
+            font-size: 18px;
+            color: var(--slate-600);
+            line-height: 1.6;
+            margin-bottom: 32px;
         }
-
-        .landing-hero {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .hero-cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+        .hero-social-proof {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-top: 24px;
+            border-top: 1px solid var(--slate-200);
+        }
+        .avatar-group {
+            display: flex;
+        }
+        .avatar-group img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 3px solid white;
+            margin-left: -12px;
+            object-fit: cover;
+            box-shadow: var(--shadow-sm);
+        }
+        .avatar-group img:first-child {
+            margin-left: 0;
+        }
+        .hero-right {
+            position: relative;
+        }
+        .hero-image-card {
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            border: 6px solid var(--white);
+        }
+        .hero-image-card img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .hero-image-card:hover img {
+            transform: scale(1.03);
+        }
+        .floating-stat-card {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: var(--glass-blur);
+            padding: 16px 22px;
+            border-radius: 18px;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            animation: tcFloat 4s ease-in-out infinite;
+        }
+        .floating-stat-card-2 {
+            position: absolute;
+            top: 24px;
+            right: -20px;
+            background: rgba(15, 23, 42, 0.9);
             color: white;
-            padding: 100px 40px;
-            border-radius: 30px;
+            padding: 14px 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13.5px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: tcFloat 5s ease-in-out infinite reverse;
+        }
+        @keyframes tcFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Stats Strip */
+        .stats-strip {
+            max-width: 1320px;
+            margin: 0 auto 70px;
+            padding: 0 24px;
+        }
+        .stats-grid {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 36px 40px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--slate-200);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
             text-align: center;
-            margin: 40px auto;
-            max-width: 1200px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+        .stat-box h3 {
+            font-size: 40px;
+            font-weight: 800;
+            background: var(--grad-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+        .stat-box p {
+            color: var(--slate-500);
+            font-size: 14.5px;
+            font-weight: 600;
+        }
+
+        /* Features Section */
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+        }
+        .section-header h2 {
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--slate-900);
+            margin-bottom: 12px;
+        }
+        .section-header p {
+            font-size: 17px;
+            color: var(--slate-600);
+        }
+        .features-grid {
+            max-width: 1320px;
+            margin: 0 auto 90px;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+        .feature-card {
+            background: var(--white);
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-md);
+            transition: all 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(79, 70, 229, 0.3);
+        }
+        .feature-card-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .feature-card-body {
+            padding: 28px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .feature-card-body h3 {
+            font-size: 21px;
+            margin-bottom: 12px;
+            color: var(--slate-900);
+        }
+        .feature-card-body p {
+            color: var(--slate-600);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Banner CTA */
+        .cta-box {
+            max-width: 1320px;
+            margin: 0 auto 90px;
+            padding: 0 24px;
+        }
+        .cta-inner {
+            background: var(--grad-hero);
+            border-radius: 28px;
+            padding: 60px;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            box-shadow: var(--shadow-xl);
         }
-
-        .landing-hero::before {
+        .cta-inner::before {
             content: '';
             position: absolute;
             top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            opacity: 0.3;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
         }
 
-        .landing-hero h1 {
-            font-size: 64px;
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
-            font-weight: 800;
-            letter-spacing: -2px;
-            line-height: 1.1;
-        }
-
-        .landing-hero h1 span {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .landing-hero p {
-            font-size: 22px;
-            opacity: 0.95;
-            margin-bottom: 48px;
-            position: relative;
-            z-index: 1;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn {
-            padding: 16px 36px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-4px);
-        }
-
-        .features-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 80px 40px;
-            margin: 40px auto;
-            max-width: 1200px;
-            border-radius: 30px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .features-section h2 {
-            font-size: 48px;
-            text-align: center;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .features-section p.subtitle {
-            text-align: center;
-            color: var(--gray);
-            margin-bottom: 60px;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 40px;
-            border-radius: 24px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-            border-color: rgba(102, 126, 234, 0.2);
-        }
-
-        .feature-card .icon {
-            font-size: 56px;
-            margin-bottom: 24px;
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            color: var(--dark);
-            font-weight: 700;
-        }
-
-        .feature-card p {
-            color: var(--gray);
-            line-height: 1.7;
-            font-size: 16px;
-        }
-
-        .stats-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 80px 40px;
-            margin: 40px auto;
-            max-width: 1200px;
-            border-radius: 30px;
-            color: white;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-        }
-
-        .stats-section h2 {
-            font-size: 42px;
-            margin-bottom: 16px;
-            font-weight: 800;
-        }
-
-        .stats-section p {
-            font-size: 18px;
-            opacity: 0.9;
-            margin-bottom: 40px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-        }
-
-        .stat-item h3 {
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .stat-item p {
-            font-size: 16px;
-            opacity: 0.9;
-            font-weight: 500;
-        }
-
-        @media (max-width: 768px) {
-            .landing-hero h1 {
+        @media (max-width: 1024px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-title {
                 font-size: 42px;
             }
-
-            .landing-hero p {
-                font-size: 18px;
+            .hero-left {
+                padding-right: 0;
             }
-
-            .hero-buttons {
+            .hero-cta-group, .hero-social-proof {
+                justify-content: center;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .cta-inner {
                 flex-direction: column;
-            }
-
-            .features-section h2 {
-                font-size: 36px;
-            }
-
-            .stats-section h2 {
-                font-size: 32px;
+                text-align: center;
+                gap: 30px;
+                padding: 40px 24px;
             }
         }
     </style>
-
 </head>
-
-
 <body>
 
-    <!-- Navigation -->
-    <nav style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 20px 40px; border-radius: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
-        <div style="font-size: 28px; font-weight: 800; color: white;">
-            🚀 Team<span style="color: #f093fb;">Connect</span>
+    <!-- Sticky Navigation Bar -->
+    <header class="tc-navbar">
+        <div class="tc-nav-container">
+            <a href="/" class="tc-logo">
+                <div class="tc-logo-badge">🚀</div>
+                Team<span>Connect</span>
+            </a>
+            <nav class="tc-nav-links">
+                <a href="/" class="tc-nav-link active">Home</a>
+                <a href="#features" class="tc-nav-link">Features</a>
+                <a href="#stats" class="tc-nav-link">Impact</a>
+                <a href="/find-teams" class="tc-nav-link">Explore Teams</a>
+            </nav>
+            <div class="tc-nav-actions">
+                <a href="/login" class="tc-btn tc-btn-secondary">Sign In</a>
+                <a href="/register" class="tc-btn tc-btn-primary">Get Started Free</a>
+            </div>
         </div>
-        <div style="display: flex; gap: 12px;">
-            <a href="/" style="color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; font-weight: 500;">Home</a>
-            <a href="#features" style="color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; font-weight: 500;">Features</a>
-            <a href="#about" style="color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; font-weight: 500;">About</a>
-            <a href="/login" style="background: rgba(255, 255, 255, 0.2); color: white; text-decoration: none; padding: 10px 24px; border-radius: 10px; transition: all 0.3s ease; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.3);">Login</a>
-            <a href="/register" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; padding: 10px 24px; border-radius: 10px; transition: all 0.3s ease; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">Register</a>
-        </div>
-    </nav>
+    </header>
 
     <!-- Hero Section -->
-    <section class="landing-hero">
-        <h1>
-            Find the Right <span>Team</span>.
-            <br>Build Something <span>Great</span>.
-        </h1>
-        <p>
-            TeamConnect is a centralized platform that helps
-            students discover teammates, create teams and
-            collaborate on hackathons, competitions,
-            academic projects and college activities.
-        </p>
-        <div class="hero-buttons">
-            <a href="/login" class="btn btn-primary">
-                🔐 Login to Find Teams
-            </a>
-            <a href="/register" class="btn btn-secondary">
-                ✨ Register to Create Team
-            </a>
+    <section class="hero-section">
+        <div class="hero-left">
+            <div class="hero-pill-badge">
+                <span>🔥 Campus Team Matching Platform</span>
+            </div>
+            <h1 class="hero-title">
+                Find the Perfect <span>Teammates</span>. Build Winning Projects.
+            </h1>
+            <p class="hero-desc">
+                Connect with passionate developers, designers, and innovators across colleges. 
+                Form powerhouse teams for hackathons, academic capstones, and competitions in minutes.
+            </p>
+            <div class="hero-cta-group">
+                <a href="/find-teams" class="tc-btn tc-btn-primary tc-btn-lg">
+                    <span>🔍 Find Open Teams</span>
+                </a>
+                <a href="/create-team" class="tc-btn tc-btn-secondary tc-btn-lg">
+                    <span>➕ Create a Team</span>
+                </a>
+            </div>
+            <div class="hero-social-proof">
+                <div class="avatar-group">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Student">
+                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80" alt="Student">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" alt="Student">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" alt="Student">
+                </div>
+                <div>
+                    <div style="font-weight: 700; color: var(--slate-900);">2,400+ Active Students</div>
+                    <div style="font-size: 13.5px; color: var(--slate-500);">Formed 500+ successful teams this semester</div>
+                </div>
+            </div>
         </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section" id="features">
-        <h2>Everything You Need to Build a Team</h2>
-        <p class="subtitle">Discover powerful features designed to help you connect with the right teammates</p>
-
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="icon">👥</div>
-                <h3>Find Teammates</h3>
-                <p>Discover students based on skills, department, year and interests to build the perfect team.</p>
+        
+        <div class="hero-right">
+            <div class="hero-image-card">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" alt="University students collaborating on laptops in modern lab">
             </div>
-
-            <div class="feature-card">
-                <div class="icon">🚀</div>
-                <h3>Create a Team</h3>
-                <p>Create a team for hackathons, competitions and academic projects with just a few clicks.</p>
+            <div class="floating-stat-card">
+                <div style="font-size: 32px;">🏆</div>
+                <div>
+                    <div style="font-weight: 800; font-size: 18px; color: var(--slate-900);">1st Place Winner</div>
+                    <div style="font-size: 13px; color: var(--slate-500);">National AI Hackathon Team</div>
+                </div>
             </div>
-
-            <div class="feature-card">
-                <div class="icon">🤝</div>
-                <h3>Join Teams</h3>
-                <p>Explore available teams and send requests to join projects that match your interests.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="icon">💬</div>
-                <h3>Team Messaging</h3>
-                <p>Communicate with your team members through built-in messaging for seamless collaboration.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="icon">📊</div>
-                <h3>Track Progress</h3>
-                <p>Monitor team member counts, manage requests and keep track of your team's status.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="icon">🎯</div>
-                <h3>Smart Matching</h3>
-                <p>Get matched with teams based on your skills, interests and project requirements.</p>
+            <div class="floating-stat-card-2">
+                <span>⚡ Live: 18 New Join Requests Today</span>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <h2>Join Thousands of Students</h2>
-        <p>Already building amazing teams together</p>
+    <!-- Stats Strip -->
+    <section class="stats-strip" id="stats">
         <div class="stats-grid">
-            <div class="stat-item">
+            <div class="stat-box">
                 <h3>500+</h3>
-                <p>Active Teams</p>
+                <p>Teams Formed</p>
             </div>
-            <div class="stat-item">
-                <h3>2000+</h3>
-                <p>Students</p>
+            <div class="stat-box">
+                <h3>2,400+</h3>
+                <p>Registered Students</p>
             </div>
-            <div class="stat-item">
-                <h3>100+</h3>
-                <p>Projects Completed</p>
+            <div class="stat-box">
+                <h3>120+</h3>
+                <p>Hackathons Won</p>
             </div>
-            <div class="stat-item">
-                <h3>50+</h3>
-                <p>Universities</p>
+            <div class="stat-box">
+                <h3>98%</h3>
+                <p>Match Satisfaction</p>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="features-section" id="about">
-        <h2>Why TeamConnect?</h2>
-        <p class="subtitle">
-            Students often have different skills and interests,
-            but finding the right teammates can be difficult.
-            TeamConnect brings students together on one platform
-            so they can discover opportunities and build teams.
-        </p>
+    <!-- Features Section with High-Resolution Photography -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <h2>Everything You Need to Form a Winning Squad</h2>
+            <p>From skill-filtered team discovery to real-time communication, TeamConnect eliminates the friction of finding project partners.</p>
+        </div>
+
+        <div class="features-grid">
+            <!-- Card 1 -->
+            <div class="feature-card">
+                <img class="feature-card-img" src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80" alt="Hackathon coding team brainstorming">
+                <div class="feature-card-body">
+                    <div class="tc-badge tc-badge-primary" style="margin-bottom: 12px; align-self: flex-start;">Skill Matching</div>
+                    <h3>Discover Open Rosters</h3>
+                    <p>Filter teams by event, technical stack (Python, React, AI/ML), department, and academic year to find the ideal match.</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="feature-card">
+                <img class="feature-card-img" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students studying together with laptops">
+                <div class="feature-card-body">
+                    <div class="tc-badge tc-badge-open" style="margin-bottom: 12px; align-self: flex-start;">Verified Profiles</div>
+                    <h3>Showcase Your Superpower</h3>
+                    <p>Build a detailed profile highlighting your programming languages, frameworks, interests, and past project achievements.</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="feature-card">
+                <img class="feature-card-img" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" alt="Collaborative study group having a lively chat">
+                <div class="feature-card-body">
+                    <div class="tc-badge tc-badge-warning" style="margin-bottom: 12px; align-self: flex-start;">Instant Chat</div>
+                    <h3>Team Coordination Hub</h3>
+                    <p>Chat directly with team members, coordinate meeting times, assign roles, and align before event kickoffs.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Footer -->
-    <footer style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; margin-top: 60px; border-radius: 20px; text-align: center; color: white;">
-        <p style="font-size: 16px; font-weight: 500;">© 2026 TeamConnect | Centralized Team Management Platform</p>
-        <p style="margin-top: 12px; font-size: 14px; opacity: 0.7;">Made with ❤️ for students everywhere</p>
+    <!-- Call to Action Banner -->
+    <div class="cta-box">
+        <div class="cta-inner">
+            <div style="position: relative; z-index: 2; max-width: 600px;">
+                <h2 style="font-size: 36px; color: white; margin-bottom: 14px;">Ready to Build Something Incredible?</h2>
+                <p style="font-size: 16px; opacity: 0.9;">Join thousands of students turning hackathon ideas into real working products today.</p>
+            </div>
+            <div style="position: relative; z-index: 2;">
+                <a href="/register" class="tc-btn tc-btn-primary tc-btn-lg" style="background: white; color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                    Create Free Account →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Footer -->
+    <footer class="tc-footer">
+        <div class="tc-footer-content">
+            <div>
+                <div class="tc-logo" style="color: white; margin-bottom: 8px;">
+                    <div class="tc-logo-badge">🚀</div>
+                    Team<span style="color: #818cf8;">Connect</span>
+                </div>
+                <p style="font-size: 14px;">Connecting student innovators across colleges.</p>
+            </div>
+            <div class="tc-footer-links">
+                <a href="/find-teams">Explore Teams</a>
+                <a href="/login">Sign In</a>
+                <a href="/register">Register</a>
+            </div>
+            <p style="font-size: 13.5px;">© 2026 TeamConnect. All rights reserved.</p>
+        </div>
     </footer>
 
 </body>
-
 </html>

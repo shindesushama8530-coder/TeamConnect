@@ -3,273 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Join Requests - TeamConnect</title>
+    <title>My Sent Applications — TeamConnect</title>
+    <link rel="stylesheet" href="/static/css/style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .page-container {
+            max-width: 1100px;
+            margin: 28px auto 60px;
+            padding: 0 24px;
+            width: 100%;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .navbar {
-            background: white;
-            padding: 15px 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        .application-item-card {
+            background: var(--white);
+            border-radius: 22px;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-sm);
+            padding: 26px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
         }
-
-        .navbar h2 {
-            color: #667eea;
-            font-size: 24px;
-        }
-
-        .navbar a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            color: white;
-        }
-
-        .header h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-
-        .request-card {
-            background: white;
-            padding: 30px;
-            margin-bottom: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .request-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .request-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .request-header h2 {
-            color: #667eea;
-            font-size: 24px;
-        }
-
-        .status-badge {
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-pending {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        .status-accepted {
-            background: #d1fae5;
-            color: #059669;
-        }
-
-        .status-rejected {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .request-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .info-item {
-            background: #f8f9ff;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .info-item strong {
-            display: block;
-            color: #667eea;
-            font-size: 12px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .info-item span {
-            color: #333;
-            font-size: 15px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .withdraw-btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .withdraw-btn:hover {
+        .application-item-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(79, 70, 229, 0.25);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
         }
-
-        .no-requests {
-            background: white;
-            padding: 60px;
-            border-radius: 20px;
+        .empty-state {
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: var(--white);
+            border-radius: 24px;
+            padding: 60px 24px;
+            border: 1px solid var(--slate-200);
+            max-width: 600px;
+            margin: 40px auto;
+            box-shadow: var(--shadow-md);
         }
-
-        .no-requests h3 {
-            color: #667eea;
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-
-        .no-requests p {
-            color: #666;
-            font-size: 16px;
-        }
-
-        .find-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .find-link:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            .request-info {
-                grid-template-columns: 1fr;
+        @media (max-width: 768px) {
+            .application-item-card {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
-    <script>
-        {% if success %}
-            alert("{{ success }}");
-        {% endif %}
-        {% if error %}
-            alert("{{ error }}");
-        {% endif %}
-    </script>
 </head>
-
 <body>
 
-<div class="navbar">
-    <h2>🚀 TeamConnect</h2>
-    <a href="/dashboard">Back to Dashboard</a>
-</div>
+    <!-- Unified Navbar -->
+    <header class="tc-navbar">
+        <div class="tc-nav-container">
+            <a href="/dashboard" class="tc-logo">
+                <div class="tc-logo-badge">🚀</div>
+                Team<span>Connect</span>
+            </a>
+            <nav class="tc-nav-links">
+                <a href="/dashboard" class="tc-nav-link">Dashboard</a>
+                <a href="/find-teams" class="tc-nav-link">Find Teams</a>
+                <a href="/my-teams" class="tc-nav-link">My Teams</a>
+                <a href="/create-team" class="tc-nav-link">Create Team</a>
+                <a href="/requests" class="tc-nav-link">Requests</a>
+                <a href="/my-requests" class="tc-nav-link active">My Applications</a>
+                <a href="/profile" class="tc-nav-link">Profile</a>
+            </nav>
+            <div class="tc-nav-actions">
+                <a href="/find-teams" class="tc-btn tc-btn-primary tc-btn-sm">🔍 Find Teams</a>
+                <a href="/logout" class="tc-btn tc-btn-secondary tc-btn-sm" style="color: var(--danger);">Sign Out</a>
+            </div>
+        </div>
+    </header>
 
-<div class="container">
-    <div class="header">
-        <h1>My Join Requests</h1>
-        <p>View and manage your team join requests</p>
+    <div class="page-container">
+        <!-- Hero Photo Banner -->
+        <div class="tc-hero-photo-banner" style="min-height: 220px; margin-bottom: 30px;">
+            <img class="tc-hero-bg-img" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80" alt="Student tracking hackathon progress">
+            <div class="tc-hero-overlay"></div>
+            <div class="tc-hero-content">
+                <div class="tc-badge tc-badge-primary" style="margin-bottom: 10px; background: rgba(79, 70, 229, 0.4); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    📝 Application Status
+                </div>
+                <h1 class="tc-hero-title" style="font-size: 32px; margin-bottom: 8px;">My Sent Applications</h1>
+                <p class="tc-hero-subtitle" style="margin-bottom: 0;">
+                    Monitor real-time approval status for team join requests you've submitted.
+                </p>
+            </div>
+        </div>
+
+        {% if success %}
+        <div class="tc-alert tc-alert-success">
+            <span>✅ {{ success }}</span>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="tc-alert tc-alert-danger">
+            <span>⚠️ {{ error }}</span>
+        </div>
+        {% endif %}
+
+        {% if requests and requests|length > 0 %}
+        <div>
+            {% for req in requests %}
+            <div class="application-item-card">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+                        <span class="tc-badge tc-badge-primary">🎯 {{ req[2] }}</span>
+                        <h2 style="font-size: 20px; color: var(--slate-900); margin: 0;">{{ req[1] }}</h2>
+                        
+                        {% if req[3] == 'Pending' %}
+                            <span class="tc-badge tc-badge-warning">⏳ Pending Approval</span>
+                        {% elif req[3] == 'Accepted' %}
+                            <span class="tc-badge tc-badge-open">✅ Application Accepted</span>
+                        {% else %}
+                            <span class="tc-badge tc-badge-full">❌ Application Declined</span>
+                        {% endif %}
+                    </div>
+                    <div style="font-size: 13.5px; color: var(--slate-500);">
+                        Submitted on: {{ req[4].strftime('%B %d, %Y') if req[4] else 'Recent' }}
+                    </div>
+                </div>
+
+                <div>
+                    {% if req[3] == 'Pending' %}
+                    <form action="/withdraw-request/{{ req[0] }}" method="POST" style="margin: 0;">
+                        <button type="submit" class="tc-btn tc-btn-secondary tc-btn-sm" style="color: var(--danger);" onclick="return confirm('Withdraw your application to join this team?')">
+                            ↩️ Withdraw Application
+                        </button>
+                    </form>
+                    {% elif req[3] == 'Accepted' %}
+                    <a href="/my-teams" class="tc-btn tc-btn-primary tc-btn-sm">
+                        🎉 Go to Team Workspace →
+                    </a>
+                    {% else %}
+                    <a href="/find-teams" class="tc-btn tc-btn-secondary tc-btn-sm">
+                        🔍 Find Other Teams
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=300&q=80" style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; object-fit: cover;" alt="No applications">
+            <h3 style="font-size: 22px; color: var(--slate-900); margin-bottom: 8px;">No Applications Sent</h3>
+            <p style="color: var(--slate-500); font-size: 14.5px; margin-bottom: 24px;">You haven't requested to join any teams yet. Explore open teams and submit an application.</p>
+            <a href="/find-teams" class="tc-btn tc-btn-primary">🔍 Explore Teams to Join</a>
+        </div>
+        {% endif %}
     </div>
 
-    {% if requests %}
-        {% for request in requests %}
-            <div class="request-card">
-                <div class="request-header">
-                    <h2>{{ request[1] }}</h2>
-                    <span class="status-badge status-{{ request[3].lower() }}">{{ request[3] }}</span>
+    <!-- Global Footer -->
+    <footer class="tc-footer">
+        <div class="tc-footer-content">
+            <div>
+                <div class="tc-logo" style="color: white; margin-bottom: 8px;">
+                    <div class="tc-logo-badge">🚀</div>
+                    Team<span style="color: #818cf8;">Connect</span>
                 </div>
-
-                <div class="request-info">
-                    <div class="info-item">
-                        <strong>Event</strong>
-                        <span>{{ request[2] }}</span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Requested On</strong>
-                        <span>{{ request[4].strftime('%Y-%m-%d %H:%M') }}</span>
-                    </div>
-                </div>
-
-                {% if request[3] == "Pending" %}
-                    <div class="action-buttons">
-                        <form action="/withdraw-request/{{ request[0] }}" method="POST">
-                            <button type="submit" class="withdraw-btn" onclick="return confirm('Are you sure you want to withdraw this request?')">
-                                ↩️ Withdraw Request
-                            </button>
-                        </form>
-                    </div>
-                {% endif %}
+                <p style="font-size: 14px;">Connecting student innovators across colleges.</p>
             </div>
-        {% endfor %}
-    {% else %}
-        <div class="no-requests">
-            <h3>No join requests</h3>
-            <p>You haven't requested to join any teams yet.</p>
-            <a href="/find-teams" class="find-link">Find Teams →</a>
+            <div class="tc-footer-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/find-teams">Explore Teams</a>
+                <a href="/my-teams">My Teams</a>
+                <a href="/logout">Logout</a>
+            </div>
+            <p style="font-size: 13.5px;">© 2026 TeamConnect. All rights reserved.</p>
         </div>
-    {% endif %}
-</div>
+    </footer>
 
 </body>
 </html>

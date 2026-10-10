@@ -3,305 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Messages - TeamConnect</title>
+    <title>Team Hub & Messages — TeamConnect</title>
+    <link rel="stylesheet" href="/static/css/style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .page-container {
+            max-width: 1320px;
+            margin: 28px auto 60px;
+            padding: 0 24px;
+            width: 100%;
         }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7ff;
-            color: #1f2937;
+        .chat-layout-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 28px;
+            align-items: start;
         }
-
-        nav {
-            height: 70px;
-            background: white;
+        .roster-card {
+            background: var(--white);
+            border-radius: 22px;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-md);
+            padding: 24px;
+        }
+        .member-item {
+            background: var(--slate-50);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 1px solid var(--slate-200);
+            transition: all 0.2s ease;
+        }
+        .member-item:hover {
+            border-color: var(--primary-light);
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+        .member-item-top {
             display: flex;
             align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .member-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+        .chat-stream-card {
+            background: var(--white);
+            border-radius: 22px;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 540px;
+        }
+        .chat-header {
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--slate-200);
+            background: var(--slate-50);
+            display: flex;
             justify-content: space-between;
-            padding: 0 8%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        .logo {
-            font-size: 26px;
-            font-weight: bold;
-            color: #4f46e5;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            margin-left: 30px;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: #4f46e5;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        h1 {
-            font-size: 32px;
-            margin-bottom: 30px;
-            color: #4f46e5;
-        }
-
-        .team-members {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-        }
-
-        .team-members h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .member-list {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .member-btn {
-            padding: 10px 20px;
-            background: #4f46e5;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-        }
-
-        .member-btn:hover {
-            background: #3730a3;
-        }
-
-        .remove-btn {
-            padding: 8px 16px;
-            background: #ef4444;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            margin-left: 10px;
-            font-size: 12px;
-        }
-
-        .remove-btn:hover {
-            background: #dc2626;
-        }
-
-        .member-card {
-            background: #f8f9ff;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #667eea;
-        }
-
-        .member-card.leader {
-            border-left-color: #f59e0b;
-            background: #fffbeb;
-        }
-
-        .member-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            display: flex;
             align-items: center;
-            gap: 10px;
         }
-
-        .leader-badge {
-            background: #f59e0b;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .member-details {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.8;
-        }
-
-        .member-details strong {
-            color: #667eea;
-            font-size: 12px;
-        }
-
-        .member-actions {
-            margin-top: 15px;
+        .chat-messages-body {
+            padding: 28px;
+            flex: 1;
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            gap: 18px;
+            max-height: 520px;
+            overflow-y: auto;
+            background: #fafbfc;
         }
-
-        .messages {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        .chat-bubble {
+            max-width: 75%;
+            padding: 16px 20px;
+            border-radius: 18px;
+            position: relative;
+            animation: tcSlideDown 0.3s ease;
         }
-
-        .messages h2 {
-            margin-bottom: 20px;
-            color: #333;
+        .chat-bubble.sent {
+            align-self: flex-end;
+            background: var(--grad-primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+            box-shadow: var(--shadow-md);
         }
-
-        .message {
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #4f46e5;
-            background: #f9fafb;
+        .chat-bubble.received {
+            align-self: flex-start;
+            background: var(--white);
+            color: var(--slate-800);
+            border: 1px solid var(--slate-200);
+            border-bottom-left-radius: 4px;
+            box-shadow: var(--shadow-sm);
         }
-
-        .message.sent {
-            border-left-color: #10b981;
-            background: #ecfdf5;
-        }
-
-        .message.received {
-            border-left-color: #4f46e5;
-            background: #f9fafb;
-        }
-
-        .message-header {
+        .bubble-meta {
+            font-size: 11.5px;
+            margin-bottom: 6px;
+            font-weight: 700;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: #666;
+            gap: 12px;
         }
-
-        .message-sender {
-            font-weight: bold;
-            color: #333;
+        .chat-bubble.sent .bubble-meta {
+            color: rgba(255, 255, 255, 0.85);
         }
-
-        .message-content {
-            font-size: 16px;
+        .chat-bubble.received .bubble-meta {
+            color: var(--primary);
+        }
+        .bubble-text {
+            font-size: 14.5px;
             line-height: 1.5;
+            word-break: break-word;
         }
-
-        .no-messages {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #4f46e5;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
+        @media (max-width: 960px) {
+            .chat-layout-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
-    <script>
-        {% if success %}
-            alert("{{ success }}");
-        {% endif %}
-        {% if error %}
-            alert("{{ error }}");
-        {% endif %}
-    </script>
 </head>
 <body>
-    <nav>
-        <div class="logo">TeamConnect</div>
-        <div class="nav-links">
-            <a href="/dashboard">Dashboard</a>
-            <a href="/profile">Profile</a>
-            <a href="/find-teams">Find Teams</a>
+
+    <!-- Unified Navbar -->
+    <header class="tc-navbar">
+        <div class="tc-nav-container">
+            <a href="/dashboard" class="tc-logo">
+                <div class="tc-logo-badge">🚀</div>
+                Team<span>Connect</span>
+            </a>
+            <nav class="tc-nav-links">
+                <a href="/dashboard" class="tc-nav-link">Dashboard</a>
+                <a href="/find-teams" class="tc-nav-link">Find Teams</a>
+                <a href="/my-teams" class="tc-nav-link active">My Teams</a>
+                <a href="/create-team" class="tc-nav-link">Create Team</a>
+                <a href="/requests" class="tc-nav-link">Requests</a>
+                <a href="/my-requests" class="tc-nav-link">My Applications</a>
+                <a href="/profile" class="tc-nav-link">Profile</a>
+            </nav>
+            <div class="tc-nav-actions">
+                <a href="/my-teams" class="tc-btn tc-btn-secondary tc-btn-sm">← Back to Teams</a>
+                <a href="/logout" class="tc-btn tc-btn-secondary tc-btn-sm" style="color: var(--danger);">Sign Out</a>
+            </div>
         </div>
-    </nav>
+    </header>
 
-    <div class="container">
-        <h1>Team Messages</h1>
+    <div class="page-container">
+        <!-- Hero Photo Banner -->
+        <div class="tc-hero-photo-banner" style="min-height: 200px; margin-bottom: 28px;">
+            <img class="tc-hero-bg-img" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80" alt="Students in team chat">
+            <div class="tc-hero-overlay"></div>
+            <div class="tc-hero-content">
+                <div class="tc-badge tc-badge-open" style="margin-bottom: 10px; background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3);">
+                    💬 Team Workspace
+                </div>
+                <h1 class="tc-hero-title" style="font-size: 30px; margin-bottom: 6px;">Team Communication Hub</h1>
+                <p class="tc-hero-subtitle" style="margin-bottom: 0;">Collaborate, coordinate meeting times, and message your teammates directly.</p>
+            </div>
+        </div>
 
-        <div class="team-members">
-            <h2>Team Members ({{ member_count }})</h2>
-            <div class="member-list">
-                {% for member in team_members %}
-                    <div class="member-card {% if member[6] %}leader{% endif %}">
-                        <div class="member-name">
-                            {{ member[1] }}
-                            {% if member[6] %}
-                                <span class="leader-badge">Team Leader</span>
+        {% if success %}
+        <div class="tc-alert tc-alert-success">
+            <span>✅ {{ success }}</span>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="tc-alert tc-alert-danger">
+            <span>⚠️ {{ error }}</span>
+        </div>
+        {% endif %}
+
+        <div class="chat-layout-grid">
+            <!-- Left: Team Member Roster -->
+            <div class="roster-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+                    <h2 style="font-size: 20px; color: var(--slate-900);">Team Members</h2>
+                    <span class="tc-badge tc-badge-primary">{{ member_count }} Members</span>
+                </div>
+
+                <div>
+                    {% for m in team_members %}
+                    <div class="member-item">
+                        <div class="member-item-top">
+                            <img class="member-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar">
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <strong style="color: var(--slate-900); font-size: 15px;">{{ m[1] }}</strong>
+                                    {% if m[6] %}
+                                        <span class="tc-badge tc-badge-warning" style="font-size: 10.5px; padding: 2px 8px;">👑 Leader</span>
+                                    {% endif %}
+                                </div>
+                                <div style="font-size: 12.5px; color: var(--slate-500);">{{ m[3] or 'Student' }} ({{ m[4] or 'N/A' }})</div>
+                            </div>
+                        </div>
+
+                        {% if m[5] %}
+                        <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px;">
+                            {% for sk in m[5].split(',') %}
+                                <span class="tc-skill-tag" style="font-size: 11px; padding: 2px 6px;">{{ sk.strip() }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div style="display: flex; gap: 8px; margin-top: 10px;">
+                            {% if m[0] != current_user_id %}
+                                <a href="/send-message/{{ team_id }}/{{ m[0] }}" class="tc-btn tc-btn-primary tc-btn-sm" style="flex: 1;">
+                                    💬 Message
+                                </a>
+                            {% else %}
+                                <span class="tc-badge tc-badge-open" style="font-size: 11px; padding: 4px 10px;">You (Current User)</span>
                             {% endif %}
-                        </div>
-                        <div class="member-details">
-                            <strong>Email:</strong> {{ member[2] }}<br>
-                            <strong>Department:</strong> {{ member[3] or 'Not specified' }}<br>
-                            <strong>Year:</strong> {{ member[4] or 'Not specified' }}<br>
-                            <strong>Skills:</strong> {{ member[5] or 'Not specified' }}
-                        </div>
-                        <div class="member-actions">
-                            <a href="/send-message/{{ team_id }}/{{ member[0] }}" class="member-btn">
-                                💬 Send Message
-                            </a>
-                            {% if is_leader and not member[6] %}
-                                <form action="/remove-member/{{ team_id }}/{{ member[0] }}" method="POST" style="display: inline;">
-                                    <button type="submit" class="remove-btn" onclick="return confirm('Are you sure you want to remove {{ member[1] }} from the team?')">
-                                        🗑️ Remove
+
+                            {% if is_leader and m[0] != current_user_id %}
+                                <form action="/remove-member/{{ team_id }}/{{ m[0] }}" method="POST" style="margin: 0;">
+                                    <button type="submit" class="tc-btn tc-btn-danger tc-btn-sm" onclick="return confirm('Remove this member from the team?')" title="Remove Member">
+                                        Dismiss
                                     </button>
                                 </form>
                             {% endif %}
                         </div>
                     </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Right: Team Messages Stream -->
+            <div class="chat-stream-card">
+                <div class="chat-header">
+                    <div>
+                        <h2 style="font-size: 19px; color: var(--slate-900); margin-bottom: 2px;">Discussion Feed</h2>
+                        <span style="font-size: 13px; color: var(--slate-500);">Direct communication between squad members</span>
+                    </div>
+                    <span class="tc-badge tc-badge-open">● Active Room</span>
+                </div>
+
+                <div class="chat-messages-body">
+                    {% if messages and messages|length > 0 %}
+                        {% for msg in messages %}
+                        <div class="chat-bubble {{ msg[5] }}">
+                            <div class="bubble-meta">
+                                <span>{{ msg[1] }} → {{ msg[2] }}</span>
+                                <span>{{ msg[4].strftime('%I:%M %p, %b %d') if msg[4] else '' }}</span>
+                            </div>
+                            <div class="bubble-text">{{ msg[3] }}</div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div style="text-align: center; margin: auto; padding: 40px 20px;">
+                            <div style="font-size: 40px; margin-bottom: 12px;">💬</div>
+                            <h3 style="font-size: 18px; color: var(--slate-800); margin-bottom: 6px;">No Messages Yet</h3>
+                            <p style="font-size: 13.5px; color: var(--slate-500); max-width: 380px; margin: 0 auto 20px;">
+                                Click on the <strong>"💬 Message"</strong> button next to any teammate in the roster list to initiate a discussion.
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
-
-        <div class="messages">
-            <h2>Your Messages</h2>
-            {% if messages %}
-                {% for msg in messages %}
-                    <div class="message {{ msg[5] }}">
-                        <div class="message-header">
-                            <span class="message-sender">
-                                {% if msg[5] == 'sent' %}
-                                    To: {{ msg[2] }}
-                                {% else %}
-                                    From: {{ msg[1] }}
-                                {% endif %}
-                            </span>
-                            <span>{{ msg[4].strftime('%Y-%m-%d %H:%M') }}</span>
-                        </div>
-                        <div class="message-content">
-                            {{ msg[3] }}
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="no-messages">
-                    No messages yet. Start a conversation with your team members!
-                </div>
-            {% endif %}
-        </div>
-
-        <a href="/find-teams" class="back-link">← Back to Teams</a>
     </div>
+
+    <!-- Global Footer -->
+    <footer class="tc-footer">
+        <div class="tc-footer-content">
+            <div>
+                <div class="tc-logo" style="color: white; margin-bottom: 8px;">
+                    <div class="tc-logo-badge">🚀</div>
+                    Team<span style="color: #818cf8;">Connect</span>
+                </div>
+                <p style="font-size: 14px;">Connecting student innovators across colleges.</p>
+            </div>
+            <div class="tc-footer-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/find-teams">Explore Teams</a>
+                <a href="/my-teams">My Teams</a>
+                <a href="/logout">Logout</a>
+            </div>
+            <p style="font-size: 13.5px;">© 2026 TeamConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
 </body>
 </html>

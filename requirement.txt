@@ -1,2 +1,2 @@
 Flask
-postgresql Pacakege-psycopg2-binary
+psycopg2-binary

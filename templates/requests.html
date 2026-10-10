@@ -3,272 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Requests - TeamConnect</title>
+    <title>Manage Join Requests — TeamConnect</title>
+    <link rel="stylesheet" href="/static/css/style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .page-container {
+            max-width: 1100px;
+            margin: 28px auto 60px;
+            padding: 0 24px;
+            width: 100%;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .navbar {
-            background: white;
-            padding: 15px 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        .request-item-card {
+            background: var(--white);
+            border-radius: 22px;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-sm);
+            padding: 26px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 24px;
         }
-
-        .navbar h2 {
-            color: #667eea;
-            font-size: 24px;
+        .request-item-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(79, 70, 229, 0.25);
+            transform: translateY(-2px);
         }
-
-        .navbar a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            color: white;
-        }
-
-        .header h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-
-        .request-card {
-            background: white;
-            padding: 30px;
-            margin-bottom: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .request-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .request-header {
+        .applicant-profile-area {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 18px;
+            flex: 1;
         }
-
-        .request-header h2 {
-            color: #667eea;
-            font-size: 24px;
+        .applicant-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+            flex-shrink: 0;
         }
-
-        .status-badge {
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
+        .applicant-info h3 {
+            font-size: 19px;
+            color: var(--slate-900);
+            margin-bottom: 4px;
         }
-
-        .status-pending {
-            background: #fef3c7;
-            color: #d97706;
+        .applicant-sub {
+            font-size: 13.5px;
+            color: var(--slate-500);
+            margin-bottom: 8px;
         }
-
-        .status-accepted {
-            background: #d1fae5;
-            color: #059669;
-        }
-
-        .status-rejected {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .request-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .info-item {
-            background: #f8f9ff;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .info-item strong {
-            display: block;
-            color: #667eea;
-            font-size: 12px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .info-item span {
-            color: #333;
-            font-size: 15px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .accept-btn,
-        .reject-btn {
-            padding: 12px 24px;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .accept-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-
-        .accept-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
-        }
-
-        .reject-btn {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-
-        .reject-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
-        }
-
-        .no-requests {
-            background: white;
-            padding: 60px;
-            border-radius: 20px;
+        .empty-state {
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: var(--white);
+            border-radius: 24px;
+            padding: 60px 24px;
+            border: 1px solid var(--slate-200);
+            max-width: 600px;
+            margin: 40px auto;
+            box-shadow: var(--shadow-md);
         }
-
-        .no-requests h3 {
-            color: #667eea;
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-
-        .no-requests p {
-            color: #666;
-            font-size: 16px;
-        }
-
-        @media (max-width: 600px) {
-            .request-info {
-                grid-template-columns: 1fr;
+        @media (max-width: 800px) {
+            .request-item-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .applicant-actions {
+                width: 100%;
+                display: flex;
+                gap: 10px;
+            }
+            .applicant-actions a {
+                flex: 1;
+                text-align: center;
             }
         }
     </style>
-    <script>
-        {% if success %}
-            alert("{{ success }}");
-        {% endif %}
-        {% if error %}
-            alert("{{ error }}");
-        {% endif %}
-    </script>
 </head>
-
 <body>
 
-<div class="navbar">
-    <h2>🚀 TeamConnect</h2>
-    <a href="/dashboard">Back to Dashboard</a>
-</div>
+    <!-- Unified Navbar -->
+    <header class="tc-navbar">
+        <div class="tc-nav-container">
+            <a href="/dashboard" class="tc-logo">
+                <div class="tc-logo-badge">🚀</div>
+                Team<span>Connect</span>
+            </a>
+            <nav class="tc-nav-links">
+                <a href="/dashboard" class="tc-nav-link">Dashboard</a>
+                <a href="/find-teams" class="tc-nav-link">Find Teams</a>
+                <a href="/my-teams" class="tc-nav-link">My Teams</a>
+                <a href="/create-team" class="tc-nav-link">Create Team</a>
+                <a href="/requests" class="tc-nav-link active">Requests</a>
+                <a href="/my-requests" class="tc-nav-link">My Applications</a>
+                <a href="/profile" class="tc-nav-link">Profile</a>
+            </nav>
+            <div class="tc-nav-actions">
+                <a href="/my-teams" class="tc-btn tc-btn-secondary tc-btn-sm">👥 My Teams</a>
+                <a href="/logout" class="tc-btn tc-btn-secondary tc-btn-sm" style="color: var(--danger);">Sign Out</a>
+            </div>
+        </div>
+    </header>
 
-<div class="container">
-    <div class="header">
-        <h1>Join Requests</h1>
-        <p>Manage students who want to join your teams</p>
+    <div class="page-container">
+        <!-- Hero Photo Banner -->
+        <div class="tc-hero-photo-banner" style="min-height: 220px; margin-bottom: 30px;">
+            <img class="tc-hero-bg-img" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80" alt="Students reviewing work">
+            <div class="tc-hero-overlay"></div>
+            <div class="tc-hero-content">
+                <div class="tc-badge tc-badge-primary" style="margin-bottom: 10px; background: rgba(79, 70, 229, 0.4); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    📩 Team Leader Inbox
+                </div>
+                <h1 class="tc-hero-title" style="font-size: 32px; margin-bottom: 8px;">Incoming Join Requests</h1>
+                <p class="tc-hero-subtitle" style="margin-bottom: 0;">
+                    Review candidates applying to join the teams you created. Inspect their technical skills and build your team.
+                </p>
+            </div>
+        </div>
+
+        {% if success %}
+        <div class="tc-alert tc-alert-success">
+            <span>✅ {{ success }}</span>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="tc-alert tc-alert-danger">
+            <span>⚠️ {{ error }}</span>
+        </div>
+        {% endif %}
+
+        {% if requests and requests|length > 0 %}
+        <div>
+            {% for req in requests %}
+            <div class="request-item-card">
+                <div class="applicant-profile-area">
+                    <img class="applicant-avatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=120&q=80" alt="Applicant avatar">
+                    <div class="applicant-info">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap;">
+                            <h3>{{ req[1] }}</h3>
+                            <span class="tc-badge tc-badge-primary">Applying for: {{ req[4] }}</span>
+                            {% if req[5] == 'Pending' %}
+                                <span class="tc-badge tc-badge-warning">⏳ Pending</span>
+                            {% elif req[5] == 'Accepted' %}
+                                <span class="tc-badge tc-badge-open">✅ Accepted</span>
+                            {% else %}
+                                <span class="tc-badge tc-badge-full">❌ Rejected</span>
+                            {% endif %}
+                        </div>
+                        <div class="applicant-sub">📧 {{ req[2] }}</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+                            <span style="font-size: 12px; font-weight: 700; color: var(--slate-500);">Skills:</span>
+                            {% if req[3] %}
+                                {% for s in req[3].split(',') %}
+                                    <span class="tc-skill-tag">{{ s.strip() }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="tc-skill-tag">Not specified</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="applicant-actions" style="display: flex; gap: 10px; align-items: center;">
+                    {% if req[5] == 'Pending' %}
+                        <a href="/accept-request/{{ req[0] }}" class="tc-btn tc-btn-success" onclick="return confirm('Accept this student into your team?')">
+                            ✅ Accept
+                        </a>
+                        <a href="/reject-request/{{ req[0] }}" class="tc-btn tc-btn-danger" onclick="return confirm('Decline this join request?')">
+                            ❌ Reject
+                        </a>
+                    {% elif req[5] == 'Accepted' %}
+                        <span style="font-size: 13.5px; font-weight: 700; color: #059669;">Team Member Added 🎉</span>
+                    {% else %}
+                        <span style="font-size: 13.5px; font-weight: 700; color: #dc2626;">Request Declined</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=300&q=80" style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; object-fit: cover;" alt="No requests">
+            <h3 style="font-size: 22px; color: var(--slate-900); margin-bottom: 8px;">No Pending Requests</h3>
+            <p style="color: var(--slate-500); font-size: 14.5px; margin-bottom: 24px;">When students find your team on the explore page and apply to join, their applications will show up here.</p>
+            <a href="/my-teams" class="tc-btn tc-btn-primary">View My Teams →</a>
+        </div>
+        {% endif %}
     </div>
 
-    {% if requests %}
-        {% for request in requests %}
-            <div class="request-card">
-                <div class="request-header">
-                    <h2>{{ request[1] }}</h2>
-                    <span class="status-badge status-{{ request[5].lower() }}">{{ request[5] }}</span>
+    <!-- Global Footer -->
+    <footer class="tc-footer">
+        <div class="tc-footer-content">
+            <div>
+                <div class="tc-logo" style="color: white; margin-bottom: 8px;">
+                    <div class="tc-logo-badge">🚀</div>
+                    Team<span style="color: #818cf8;">Connect</span>
                 </div>
-
-                <div class="request-info">
-                    <div class="info-item">
-                        <strong>Email</strong>
-                        <span>{{ request[2] }}</span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Skills</strong>
-                        <span>{{ request[3] or "Not specified" }}</span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Team</strong>
-                        <span>{{ request[4] }}</span>
-                    </div>
-                </div>
-
-                {% if request[5] == "Pending" %}
-                    <div class="action-buttons">
-                        <a href="/accept-request/{{ request[0] }}" class="accept-btn">✓ Accept</a>
-                        <a href="/reject-request/{{ request[0] }}" class="reject-btn">✗ Reject</a>
-                    </div>
-                {% endif %}
+                <p style="font-size: 14px;">Connecting student innovators across colleges.</p>
             </div>
-        {% endfor %}
-    {% else %}
-        <div class="no-requests">
-            <h3>No join requests</h3>
-            <p>No students have requested to join your teams yet.</p>
+            <div class="tc-footer-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/find-teams">Explore Teams</a>
+                <a href="/my-teams">My Teams</a>
+                <a href="/logout">Logout</a>
+            </div>
+            <p style="font-size: 13.5px;">© 2026 TeamConnect. All rights reserved.</p>
         </div>
-    {% endif %}
-</div>
+    </footer>
 
 </body>
 </html>

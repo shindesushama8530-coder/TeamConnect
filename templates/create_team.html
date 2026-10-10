@@ -3,224 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Team - TeamConnect</title>
+    <title>Create New Team — TeamConnect</title>
+    <link rel="stylesheet" href="/static/css/style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .navbar {
-            background: white;
-            padding: 15px 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar h2 {
-            color: #667eea;
-            font-size: 24px;
-        }
-
-        .navbar a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .form-box {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: #667eea;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        input,
-        textarea,
-        select {
+        .page-container {
+            max-width: 1320px;
+            margin: 28px auto 60px;
+            padding: 0 24px;
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 15px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            background: white;
         }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        textarea {
-            height: 120px;
-            resize: vertical;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .back-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .back-link a {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .back-link a:hover {
-            text-decoration: underline;
-        }
-
-        .form-row {
+        .create-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 36px;
+            align-items: start;
         }
-
-        @media (max-width: 600px) {
-            .form-row {
+        .form-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 36px;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-md);
+        }
+        .preview-sticky-card {
+            position: sticky;
+            top: 100px;
+            background: var(--white);
+            border-radius: 24px;
+            border: 1px solid var(--slate-200);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+        .preview-header-img {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .preview-card-body {
+            padding: 24px;
+        }
+        .suggest-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .suggest-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: var(--slate-100);
+            color: var(--slate-700);
+            cursor: pointer;
+            border: 1px solid var(--slate-200);
+            transition: all 0.2s ease;
+        }
+        .suggest-tag:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-color: #c7d2fe;
+        }
+        @media (max-width: 960px) {
+            .create-grid {
                 grid-template-columns: 1fr;
+            }
+            .preview-sticky-card {
+                position: static;
             }
         }
     </style>
 </head>
-
 <body>
 
-<div class="navbar">
-    <h2>🚀 TeamConnect</h2>
-    <a href="/dashboard">Back to Dashboard</a>
-</div>
+    <!-- Unified Navbar -->
+    <header class="tc-navbar">
+        <div class="tc-nav-container">
+            <a href="/dashboard" class="tc-logo">
+                <div class="tc-logo-badge">🚀</div>
+                Team<span>Connect</span>
+            </a>
+            <nav class="tc-nav-links">
+                <a href="/dashboard" class="tc-nav-link">Dashboard</a>
+                <a href="/find-teams" class="tc-nav-link">Find Teams</a>
+                <a href="/my-teams" class="tc-nav-link">My Teams</a>
+                <a href="/create-team" class="tc-nav-link active">Create Team</a>
+                <a href="/requests" class="tc-nav-link">Requests</a>
+                <a href="/my-requests" class="tc-nav-link">My Applications</a>
+                <a href="/profile" class="tc-nav-link">Profile</a>
+            </nav>
+            <div class="tc-nav-actions">
+                <a href="/find-teams" class="tc-btn tc-btn-secondary tc-btn-sm">🔍 Explore Teams</a>
+                <a href="/logout" class="tc-btn tc-btn-secondary tc-btn-sm" style="color: var(--danger);">Sign Out</a>
+            </div>
+        </div>
+    </header>
 
-<div class="container">
-    <div class="form-box">
-        <div class="header">
-            <h1>Create a Team</h1>
-            <p>Build your dream team for hackathons and competitions</p>
+    <div class="page-container">
+        <!-- Hero Photo Banner -->
+        <div class="tc-hero-photo-banner" style="min-height: 220px; margin-bottom: 30px;">
+            <img class="tc-hero-bg-img" src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1200&q=80" alt="Brainstorming wireframes and project planning">
+            <div class="tc-hero-overlay"></div>
+            <div class="tc-hero-content">
+                <div class="tc-badge tc-badge-primary" style="margin-bottom: 10px; background: rgba(79, 70, 229, 0.4); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    ➕ Team Recruitment
+                </div>
+                <h1 class="tc-hero-title" style="font-size: 32px; margin-bottom: 8px;">Create a New Team Roster</h1>
+                <p class="tc-hero-subtitle" style="margin-bottom: 0;">
+                    Define your project vision, target competition, and required technical skills to attract the ideal teammates.
+                </p>
+            </div>
         </div>
 
-        <form method="POST">
-            <div class="form-group">
-                <label for="team_name">Team Name</label>
-                <input type="text" id="team_name" name="team_name" placeholder="Enter your team name" required>
+        <div class="create-grid">
+            <!-- Form Card -->
+            <div class="form-card">
+                <h2 style="font-size: 24px; margin-bottom: 6px; color: var(--slate-900);">Team Details</h2>
+                <p style="color: var(--slate-500); font-size: 14.5px; margin-bottom: 28px;">As team creator, you'll review and approve applicant requests.</p>
+
+                <form method="POST" action="/create-team">
+                    <div class="tc-form-group">
+                        <label class="tc-label" for="team_name">Team Name *</label>
+                        <input class="tc-input" type="text" id="team_name" name="team_name" placeholder="e.g. NeuralVoyagers, CodeCrafters, QuantumLeap" required oninput="updateLivePreview()">
+                    </div>
+
+                    <div class="tc-form-group">
+                        <label class="tc-label" for="event">Event / Hackathon / Project Category *</label>
+                        <input class="tc-input" type="text" id="event" name="event" placeholder="e.g. HackMIT 2026, Senior Capstone, AI Cup" required oninput="updateLivePreview()">
+                    </div>
+
+                    <div class="tc-form-group">
+                        <label class="tc-label" for="description">Project Vision & Goals</label>
+                        <textarea class="tc-textarea" id="description" name="description" placeholder="Briefly describe what you're building and what makes this team exciting..." oninput="updateLivePreview()"></textarea>
+                    </div>
+
+                    <div class="tc-form-group">
+                        <label class="tc-label" for="required_skills">Desired Skills & Roles</label>
+                        <input class="tc-input" type="text" id="required_skills" name="required_skills" placeholder="e.g. React, Python, UI/UX, FastAPI, PyTorch" oninput="updateLivePreview()">
+                        <div class="suggest-tags">
+                            <span class="suggest-tag" onclick="appendSkill('React')">+ React</span>
+                            <span class="suggest-tag" onclick="appendSkill('Python')">+ Python</span>
+                            <span class="suggest-tag" onclick="appendSkill('Machine Learning')">+ ML / AI</span>
+                            <span class="suggest-tag" onclick="appendSkill('UI/UX Figma')">+ UI/UX</span>
+                            <span class="suggest-tag" onclick="appendSkill('Node.js')">+ Node.js</span>
+                            <span class="suggest-tag" onclick="appendSkill('Flutter')">+ Flutter</span>
+                        </div>
+                    </div>
+
+                    <div class="tc-form-group">
+                        <label class="tc-label" for="team_size">Target Team Size *</label>
+                        <select class="tc-select" id="team_size" name="team_size" required onchange="updateLivePreview()">
+                            <option value="2">2 Members (Duo)</option>
+                            <option value="3">3 Members (Trio)</option>
+                            <option value="4" selected>4 Members (Standard Hackathon Squad)</option>
+                            <option value="5">5 Members</option>
+                            <option value="6">6 Members</option>
+                            <option value="8">8 Members (Large Capstone Group)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="tc-btn tc-btn-primary tc-btn-lg" style="width: 100%; margin-top: 10px;">
+                        🚀 Publish Team Roster
+                    </button>
+                </form>
             </div>
 
-            <div class="form-group">
-                <label for="event">Event / Competition</label>
-                <input type="text" id="event" name="event" placeholder="e.g., Hackathon, Competition" required>
-            </div>
+            <!-- Live Card Preview -->
+            <div>
+                <div style="font-size: 13.5px; font-weight: 700; color: var(--slate-500); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+                    <span>👀 Live Preview for Applicants</span>
+                </div>
+                <div class="preview-sticky-card">
+                    <img class="preview-header-img" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Team preview banner">
+                    <div class="preview-card-body">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span class="tc-badge tc-badge-primary" id="preview-event">🎯 Event Name</span>
+                            <span class="tc-badge tc-badge-open">🟢 Open (1 Spot Filled)</span>
+                        </div>
+                        <h3 id="preview-name" style="font-size: 22px; color: var(--slate-900); margin-bottom: 8px;">Your Team Name</h3>
+                        <p id="preview-desc" style="color: var(--slate-600); font-size: 14px; line-height: 1.5; margin-bottom: 16px;">
+                            Project vision and description will appear here as you type in the form.
+                        </p>
+                        
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-size: 12px; font-weight: 700; color: var(--slate-500); margin-bottom: 6px;">TECH STACK:</div>
+                            <div id="preview-skills" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                <span class="tc-skill-tag">Skills Required</span>
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" placeholder="Describe your team's goals and vision"></textarea>
-            </div>
+                        <div style="background: var(--slate-50); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--slate-200); margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;">
+                                <span>Team Size</span>
+                                <span id="preview-capacity">1 of 4 spots filled</span>
+                            </div>
+                            <div class="tc-progress">
+                                <div class="tc-progress-bar" id="preview-progress" style="width: 25%;"></div>
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <label for="required_skills">Required Skills</label>
-                <input type="text" id="required_skills" name="required_skills" placeholder="e.g., Python, Flask, PostgreSQL">
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="team_size">Team Size</label>
-                    <input type="number" id="team_size" name="team_size" min="2" max="20" placeholder="e.g., 4" required>
+                        <button class="tc-btn tc-btn-primary" style="width: 100%;" disabled>
+                            🤝 Sample Join Request Button
+                        </button>
+                    </div>
                 </div>
             </div>
-
-            <button type="submit">Create Team</button>
-        </form>
-
-        <div class="back-link">
-            <a href="/dashboard">← Cancel and go back</a>
         </div>
     </div>
-</div>
+
+    <!-- Global Footer -->
+    <footer class="tc-footer">
+        <div class="tc-footer-content">
+            <div>
+                <div class="tc-logo" style="color: white; margin-bottom: 8px;">
+                    <div class="tc-logo-badge">🚀</div>
+                    Team<span style="color: #818cf8;">Connect</span>
+                </div>
+                <p style="font-size: 14px;">Connecting student innovators across colleges.</p>
+            </div>
+            <div class="tc-footer-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/find-teams">Explore Teams</a>
+                <a href="/my-teams">My Teams</a>
+                <a href="/logout">Logout</a>
+            </div>
+            <p style="font-size: 13.5px;">© 2026 TeamConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function appendSkill(skill) {
+            const input = document.getElementById('required_skills');
+            if (!input.value) {
+                input.value = skill;
+            } else if (!input.value.includes(skill)) {
+                input.value += ', ' + skill;
+            }
+            updateLivePreview();
+        }
+
+        function updateLivePreview() {
+            const name = document.getElementById('team_name').value.trim();
+            const event = document.getElementById('event').value.trim();
+            const desc = document.getElementById('description').value.trim();
+            const skills = document.getElementById('required_skills').value.trim();
+            const size = document.getElementById('team_size').value;
+
+            document.getElementById('preview-name').textContent = name || 'Your Team Name';
+            document.getElementById('preview-event').textContent = event ? '🎯 ' + event : '🎯 Event Name';
+            document.getElementById('preview-desc').textContent = desc || 'Project vision and description will appear here as you type in the form.';
+            document.getElementById('preview-capacity').textContent = `1 of ${size} spots filled`;
+            
+            const pct = Math.round((1 / parseInt(size)) * 100);
+            document.getElementById('preview-progress').style.width = pct + '%';
+
+            const skillsContainer = document.getElementById('preview-skills');
+            skillsContainer.innerHTML = '';
+            if (skills) {
+                skills.split(',').forEach(s => {
+                    const trimmed = s.trim();
+                    if (trimmed) {
+                        const tag = document.createElement('span');
+                        tag.className = 'tc-skill-tag';
+                        tag.textContent = trimmed;
+                        skillsContainer.appendChild(tag);
+                    }
+                });
+            } else {
+                const tag = document.createElement('span');
+                tag.className = 'tc-skill-tag';
+                tag.textContent = 'Open Stack';
+                skillsContainer.appendChild(tag);
+            }
+        }
+    </script>
 
 </body>
 </html>
